@@ -1,0 +1,39 @@
+project:
+  type: website
+
+website:
+  title: "DSTT Data Catalog"
+  navbar:
+    logo: assets/nwpage_tree_logo.png
+    background: primary
+    left:
+      - href: index.qmd
+        text: Home
+      - href: about.qmd
+        text: About
+    search: true
+    pinned: false
+    right:
+      - icon: github
+        href: https://github.com/DOH-EPI-Coders/dstt_demo/
+        aria-label: GitHub
+      - icon: file-richtext
+        href: https://nwpage.org/
+        aria-label: NW-PaGe
+  page-footer:
+    left: "🍦"
+    background: "#fdfdfd"
+
+format:
+  html:
+    theme: 
+      - cosmo
+      - assets/custom.scss
+    scss: assets/custom.scss
+    toc: true
+    title-block-banner: false
+    highlight-style: printing
+    link-external-newwindow: false
+    number-sections: false
+    code-overflow: wrap
+    backgroundcolor: "#fdfdfd"

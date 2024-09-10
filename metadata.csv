@@ -1,0 +1,24 @@
+Product_ID,Product_Name,Location,Steward,Source,Users,Keywords,PII,Connection
+,wa_genbank,network_drive,DIQA; MEP,genbank,,,No,data/genbank/genbank.csv
+,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-03.csv
+,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-04.csv
+,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-05.csv
+,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-06.csv
+,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-07.csv
+,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-08.csv
+,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-09.csv
+,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-10.csv
+,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-11.csv
+,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-12.csv
+,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-13.csv
+,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-14.csv
+,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-15.csv
+,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-16.csv
+,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-17.csv
+,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-18.csv
+,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-19.csv
+,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-20.csv
+,seq_results,local,PHL,BINFX,PHL,sequencing;results;accessions;variants;lineages,No,data/seq_results/results_with_NCBI_run163.csv
+,seq_results,local,PHL,BINFX,PHL,sequencing;results;accessions;variants;lineages,No,data/seq_results/results_with_ncbi_run170.csv
+,seq_results,local,PHL,BINFX,PHL,sequencing;results;accessions;variants;lineages,No,data/seq_results/results_with_ncbi_run172.csv
+,seq_results,local,PHL,BINFX,PHL,sequencing;results;accession;variants;lineages,No,data/seq_results/results_with_ncbi_run172b.csv
