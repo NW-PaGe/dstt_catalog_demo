@@ -301,13 +301,12 @@ shinyApp(ui = ui, server = server)
 #| components: [editor, viewer]
 #| viewerHeight: 600
 
-# ui code insert during GitHub Actions workflow
-source('src/ui.R') # insert ui_code here
+## file: app.R
+{{< include "src/shinyapp_example.R" >}}
 
-# server code insert during GitHub Actions workflow
-source('src/sever.R') # insert server_code here
+## file: metadata.csv
+{{< include "metadata.csv" >}}
 
-shinyApp(ui,server)
 ```
 :::
 
