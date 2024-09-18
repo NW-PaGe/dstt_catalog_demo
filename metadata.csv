@@ -1,5 +1,5 @@
 Product_ID,Product_Name,Location,Steward,Source,Users,Keywords,PII,Connection
-,wa_genbank,network_drive,DIQA; MEP,genbank,,,No,data/genbank/genbank.csv
+,wa_genbank,network_drive,DIQA; MEP,genbank,,,No,data/genbank/wa_genbank_2024-06-26.csv
 ,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-03.csv
 ,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-04.csv
 ,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-05.csv

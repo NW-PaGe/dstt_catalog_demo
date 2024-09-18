@@ -34,7 +34,7 @@ ui <- fluidPage(
 # Define the server logic
 server <- function(input, output, session) {
   # Read the CSV file when the app starts
-  metadata <- read.csv("metadata.csv")
+  metadata <- read.csv(url("https://raw.githubusercontent.com/NW-PaGe/dstt_catalog_demo/refs/heads/main/metadata.csv"))
   
   # Dynamically create selectInputs for each filterable column
   output$locationSelect <- renderUI({
@@ -171,7 +171,7 @@ server <- function(input, output, session) {
     req(selectedFile())  # Ensure there is a selected file
     
     tryCatch({
-      file_data <- read.csv(selectedFile())
+      file_data <- read.csv(url(paste0('https://raw.githubusercontent.com/NW-PaGe/dstt_catalog_demo/refs/heads/main/', selectedFile())))
       datatable(file_data, options = list(pageLength = 10, autoWidth = TRUE))
     }, error = function(e) {
       # If there's an error reading the file, display an error message
