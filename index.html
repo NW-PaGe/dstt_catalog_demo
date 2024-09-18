@@ -455,7 +455,7 @@ ui &lt;- fluidPage(
 # Define the server logic
 server &lt;- function(input, output, session) {
   # Read the CSV file when the app starts
-  metadata &lt;- read.csv("metadata.csv")
+  metadata &lt;- read.csv(url("https://raw.githubusercontent.com/NW-PaGe/dstt_catalog_demo/refs/heads/main/metadata.csv"))
   
   # Dynamically create selectInputs for each filterable column
   output$locationSelect &lt;- renderUI({
@@ -592,7 +592,7 @@ server &lt;- function(input, output, session) {
     req(selectedFile())  # Ensure there is a selected file
     
     tryCatch({
-      file_data &lt;- read.csv(selectedFile())
+      file_data &lt;- read.csv(url(paste0('https://raw.githubusercontent.com/NW-PaGe/dstt_catalog_demo/refs/heads/main/', selectedFile())))
       datatable(file_data, options = list(pageLength = 10, autoWidth = TRUE))
     }, error = function(e) {
       # If there's an error reading the file, display an error message
@@ -608,7 +608,7 @@ shinyApp(ui = ui, server = server)
 
 ## file: metadata.csv
 Product_ID,Product_Name,Location,Steward,Source,Users,Keywords,PII,Connection
-,wa_genbank,network_drive,DIQA; MEP,genbank,,,No,data/genbank/genbank.csv
+,wa_genbank,network_drive,DIQA; MEP,genbank,,,No,data/genbank/wa_genbank_2024-06-26.csv
 ,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-03.csv
 ,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-04.csv
 ,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-05.csv
