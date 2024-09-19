@@ -1,6 +1,9 @@
 library(shiny)
 library(DT)
 
+# Read the CSV file when the script starts
+metadata <- read.csv(url("https://raw.githubusercontent.com/NW-PaGe/dstt_catalog_demo/refs/heads/main/metadata.csv"))
+
 # Define the UI
 ui <- fluidPage(
   titlePanel("Filtered Metadata Viewer"),
@@ -11,12 +14,12 @@ ui <- fluidPage(
       textInput("product_name", "Product Name", ""),
       textInput("keywords", "Keywords", ""),
       
-      # Dynamic inputs for filtering based on unique values
-      uiOutput("locationSelect"),
-      uiOutput("stewardSelect"),
-      uiOutput("usersSelect"),
-      uiOutput("piiSelect"),
-      uiOutput("sourceSelect")
+      # Static text inputs dynamically pulled from metadata.csv for certain columns
+      selectInput("location", "Location", choices = c("All", unique(metadata$Location)), selected = "All"),
+      selectInput("steward", "Steward", choices = c("All", unique(metadata$Steward)), selected = "All"),
+      selectInput("users", "Users", choices = c("All", unique(metadata$Users)), selected = "All"),
+      selectInput("pii", "PII", choices = c("All", unique(metadata$PII)), selected = "All"),
+      selectInput("source", "Source", choices = c("All", unique(metadata$Source)), selected = "All")
     ),
     mainPanel(
       h3("Filters Applied:"),
@@ -33,39 +36,6 @@ ui <- fluidPage(
 
 # Define the server logic
 server <- function(input, output, session) {
-  # Read the CSV file when the app starts
-  metadata <- read.csv(url("https://raw.githubusercontent.com/NW-PaGe/dstt_catalog_demo/refs/heads/main/metadata.csv"))
-  
-  # Dynamically create selectInputs for each filterable column
-  output$locationSelect <- renderUI({
-    unique_locations <- unique(metadata$Location)
-    location_choices <- c("All", unique_locations)
-    selectInput("location", "Location", choices = location_choices, selected = "All")
-  })
-
-  output$stewardSelect <- renderUI({
-    unique_stewards <- unique(metadata$Steward)
-    steward_choices <- c("All", unique_stewards)
-    selectInput("steward", "Steward", choices = steward_choices, selected = "All")
-  })
-
-  output$usersSelect <- renderUI({
-    unique_users <- unique(metadata$Users)
-    users_choices <- c("All", unique_users)
-    selectInput("users", "Users", choices = users_choices, selected = "All")
-  })
-
-  output$piiSelect <- renderUI({
-    unique_pii <- unique(metadata$PII)
-    pii_choices <- c("All", unique_pii)
-    selectInput("pii", "PII", choices = pii_choices, selected = "All")
-  })
-
-  output$sourceSelect <- renderUI({
-    unique_sources <- unique(metadata$Source)
-    source_choices <- c("All", unique_sources)
-    selectInput("source", "Source", choices = source_choices, selected = "All")
-  })
   
   # Reactive expression to filter data based on inputs
   filteredData <- reactive({
