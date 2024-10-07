@@ -15,7 +15,7 @@ website:
     pinned: false
     right:
       - icon: github
-        href: https://github.com/DOH-EPI-Coders/dstt_demo/
+        href: https://github.com/NW-PaGe/dstt_catalog_demo/
         aria-label: GitHub
       - icon: file-richtext
         href: https://nwpage.org/
