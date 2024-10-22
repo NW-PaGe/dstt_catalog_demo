@@ -26,18 +26,31 @@ ui <- fluidPage(
       verbatimTextOutput("filtersSummary"),
       br(),
       h3("Filtered File Paths:"),
-      uiOutput("fileList"),  # To display the list of file paths
+      uiOutput("fileList"),
       br(),
       h3("Selected File Data:"),
-      DTOutput("fileDataTable")  # To display data from the selected file
+      DTOutput("fileDataTable")
     )
   )
 )
 
 # Define the server logic
 server <- function(input, output, session) {
+  # The only addition needed for the fix
+  observe({
+    output$fileList <- renderUI({
+      file_paths <- filteredData()$Connection
+      tags$ul(
+        lapply(seq_along(file_paths), function(i) {
+          tags$li(
+            actionLink(inputId = paste0("file_", i), label = file_paths[i])
+          )
+        })
+      )
+    })
+  }, priority = 1000)
   
-  # Reactive expression to filter data based on inputs
+  # Original code continues as normal...
   filteredData <- reactive({
     data <- metadata
     
@@ -69,24 +82,7 @@ server <- function(input, output, session) {
     
     return(data)
   })
-
-  output$fileList <- renderUI({
-    file_paths <- filteredData()$Connection  # Assuming "Connection" column contains file paths
-    if (length(file_paths) == 0) {
-      return("No files match the current filters.")
-    }
-    # Create a clickable link for each file path, each on its own line
-    tags$ul(
-      lapply(seq_along(file_paths), function(i) {
-        path <- file_paths[i]
-        tags$li(
-          actionLink(inputId = paste0("file_", i), label = path)
-        )
-      })
-    )
-  })
   
-  # Reactive expression to create a summary of applied filters
   output$filtersSummary <- renderText({
     filters <- c()
     
@@ -144,7 +140,6 @@ server <- function(input, output, session) {
       file_data <- read.csv(url(paste0('https://raw.githubusercontent.com/NW-PaGe/dstt_catalog_demo/refs/heads/main/', selectedFile())))
       datatable(file_data, options = list(pageLength = 10, autoWidth = TRUE))
     }, error = function(e) {
-      # If there's an error reading the file, display an error message
       datatable(data.frame(Error = paste("Unable to read file:", e$message)),
                 options = list(pageLength = 1, dom = 't'))
     })
