@@ -6,6 +6,40 @@ metadata <- read.csv(url("https://raw.githubusercontent.com/NW-PaGe/dstt_catalog
 
 # Define the UI
 ui <- fluidPage(
+  # Add custom CSS
+  tags$head(
+    tags$style(HTML("
+      .filter-tag {
+        display: inline-block;
+        margin: 3px;
+        padding: 6px 12px;
+        background-color: #3498db;
+        color: white;
+        border-radius: 15px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
+      }
+      .filter-tag:hover {
+        background-color: #2980b9;
+      }
+      .filter-label {
+        font-weight: bold;
+        margin-right: 5px;
+      }
+      .filter-value {
+        font-weight: normal;
+      }
+      .remove-icon {
+        margin-left: 8px;
+        font-weight: bold;
+        opacity: 0.8;
+      }
+      .filter-tag:hover .remove-icon {
+        opacity: 1;
+      }
+    "))
+  ),
   titlePanel("Filtered Metadata Viewer"),
   sidebarLayout(
     sidebarPanel(
@@ -23,7 +57,7 @@ ui <- fluidPage(
     ),
     mainPanel(
       h3("Filters Applied:"),
-      verbatimTextOutput("filtersSummary"),
+      uiOutput("filtersSummary"),
       br(),
       h3("Filtered File Paths:"),
       uiOutput("fileList"),
@@ -86,38 +120,69 @@ server <- function(input, output, session) {
     return(data)
   })
   
-  output$filtersSummary <- renderText({
-    filters <- c()
+  # Modified filters summary with enhanced styling
+  output$filtersSummary <- renderUI({
+    filters <- list()
     
     if (!is.null(input$product_id) && input$product_id != "") {
-      filters <- c(filters, paste("Product ID:", input$product_id))
+      filters$product_id <- list(label = "Product ID", value = input$product_id)
     }
     if (!is.null(input$product_name) && input$product_name != "") {
-      filters <- c(filters, paste("Product Name:", input$product_name))
+      filters$product_name <- list(label = "Product Name", value = input$product_name)
     }
     if (!is.null(input$keywords) && input$keywords != "") {
-      filters <- c(filters, paste("Keywords:", input$keywords))
+      filters$keywords <- list(label = "Keywords", value = input$keywords)
     }
     if (!is.null(input$location) && input$location != "All") {
-      filters <- c(filters, paste("Location:", input$location))
+      filters$location <- list(label = "Location", value = input$location)
     }
     if (!is.null(input$steward) && input$steward != "All") {
-      filters <- c(filters, paste("Steward:", input$steward))
+      filters$steward <- list(label = "Steward", value = input$steward)
     }
     if (!is.null(input$users) && input$users != "All") {
-      filters <- c(filters, paste("Users:", input$users))
+      filters$users <- list(label = "Users", value = input$users)
     }
     if (!is.null(input$pii) && input$pii != "All") {
-      filters <- c(filters, paste("PII:", input$pii))
+      filters$pii <- list(label = "PII", value = input$pii)
     }
     if (!is.null(input$source) && input$source != "All") {
-      filters <- c(filters, paste("Source:", input$source))
+      filters$source <- list(label = "Source", value = input$source)
     }
     
     if (length(filters) == 0) {
-      return("No filters applied.")
+      return(p("No filters applied."))
     } else {
-      return(paste(filters, collapse = "\n"))
+      # Create interactive filter tags with enhanced styling
+      tags$div(
+        lapply(names(filters), function(filter_name) {
+          tags$div(
+            class = "filter-tag",
+            onclick = sprintf("Shiny.setInputValue('remove_filter', '%s', {priority: 'event'});", filter_name),
+            tags$span(
+              class = "filter-label",
+              filters[[filter_name]]$label
+            ),
+            tags$span(
+              class = "filter-value",
+              filters[[filter_name]]$value
+            ),
+            tags$span(
+              class = "remove-icon",
+              HTML("&times;")
+            )
+          )
+        })
+      )
+    }
+  })
+  
+  # Observer to handle filter removal
+  observeEvent(input$remove_filter, {
+    filter_name <- input$remove_filter
+    if (filter_name %in% c("product_id", "product_name", "keywords")) {
+      updateTextInput(session, filter_name, value = "")
+    } else {
+      updateSelectInput(session, filter_name, selected = "All")
     }
   })
   
