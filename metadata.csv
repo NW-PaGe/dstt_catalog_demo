@@ -18,7 +18,7 @@ Product_ID,Product_Name,Location,Steward,Source,Users,Keywords,PII,Connection
 ,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-24.csv
 ,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-25.csv
 ,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-26.csv
-,seq_results,local,PHL,BINFX,PHL,sequencing;results;accessions;variants;lineages,No,data/seq_results/results_with_NCBI_run163.csv
+,seq_results,local,PHL,BINFX,PHL,sequencing;results;accessions;variants;lineages,No,data/seq_results/results_with_ncbi_run163.csv
 ,seq_results,local,PHL,BINFX,PHL,sequencing;results;accessions;variants;lineages,No,data/seq_results/results_with_ncbi_run170.csv
 ,seq_results,local,PHL,BINFX,PHL,sequencing;results;accessions;variants;lineages,No,data/seq_results/results_with_ncbi_run172.csv
 ,seq_results,local,PHL,BINFX,PHL,sequencing;results;accession;variants;lineages,No,data/seq_results/results_with_ncbi_run172b.csv
