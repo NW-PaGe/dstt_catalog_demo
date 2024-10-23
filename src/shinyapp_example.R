@@ -36,21 +36,24 @@ ui <- fluidPage(
 
 # Define the server logic
 server <- function(input, output, session) {
-  # The only addition needed for the fix
   observe({
     output$fileList <- renderUI({
       file_paths <- filteredData()$Connection
       tags$ul(
         lapply(seq_along(file_paths), function(i) {
           tags$li(
-            actionLink(inputId = paste0("file_", i), label = file_paths[i])
+            actionLink(
+              inputId = paste0("file_", i),
+              label = file_paths[i],
+              onclick = sprintf("Shiny.setInputValue('last_clicked', '%s', {priority: 'event'});", paste0("file_", i))
+            )
           )
         })
       )
     })
   }, priority = 1000)
   
-  # Original code continues as normal...
+  # Original filtering logic remains the same
   filteredData <- reactive({
     data <- metadata
     
@@ -121,16 +124,14 @@ server <- function(input, output, session) {
   # Reactive value to store the selected file path
   selectedFile <- reactiveVal(NULL)
   
-  # Observer to update the selected file path when a link is clicked
-  observe({
+  # Replace the original observer with this new one that responds to last_clicked
+  observeEvent(input$last_clicked, {
+    file_index <- as.numeric(gsub("file_", "", input$last_clicked))
     file_paths <- filteredData()$Connection
-    for (i in seq_along(file_paths)) {
-      if (isTruthy(input[[paste0("file_", i)]])) {
-        selectedFile(file_paths[i])
-        break
-      }
+    if (file_index <= length(file_paths)) {
+      selectedFile(file_paths[file_index])
     }
-  })
+  }, ignoreInit = TRUE)
   
   # Render the data from the selected file
   output$fileDataTable <- renderDT({
