@@ -1,5 +1,6 @@
 library(shiny)
 library(DT)
+library(officer)
 
 # Read the CSV file when the script starts
 metadata <- read.csv(url("https://raw.githubusercontent.com/NW-PaGe/dstt_catalog_demo/refs/heads/main/metadata.csv"))
@@ -63,7 +64,9 @@ ui <- fluidPage(
       uiOutput("fileList"),
       br(),
       h3("Selected File Data:"),
-      DTOutput("fileDataTable")
+      DTOutput("fileDataTable"),
+      uiOutput("docx_content"),
+      br()
     )
   )
 )
@@ -201,14 +204,36 @@ server <- function(input, output, session) {
   # Render the data from the selected file
   output$fileDataTable <- renderDT({
     req(selectedFile())  # Ensure there is a selected file
-    
-    tryCatch({
-      file_data <- read.csv(url(paste0('https://raw.githubusercontent.com/NW-PaGe/dstt_catalog_demo/refs/heads/main/', selectedFile())))
-      datatable(file_data, options = list(pageLength = 10, autoWidth = TRUE))
-    }, error = function(e) {
-      datatable(data.frame(Error = paste("Unable to read file:", e$message)),
-                options = list(pageLength = 1, dom = 't'))
-    })
+    if (grepl('.csv', selectedFile())) {
+      tryCatch({
+        file_data <- read.csv(url(paste0('https://raw.githubusercontent.com/NW-PaGe/dstt_catalog_demo/refs/heads/main/', selectedFile())))
+        datatable(file_data, options = list(pageLength = 10, autoWidth = TRUE))
+      }, error = function(e) {
+        datatable(data.frame(Error = paste("Unable to read file:", e$message)),
+                  options = list(pageLength = 1, dom = 't'))
+      })
+    } else {
+      datatable(data.frame())
+    }
+  })
+  
+  output$docx_content <- renderUI({
+    req(selectedFile())  # Ensure there is a selected file
+    if (grepl('.docx', selectedFile())) {
+      tryCatch({
+        url <- paste0('https://raw.githubusercontent.com/NW-PaGe/dstt_catalog_demo/main/', selectedFile())
+        temp_file <- tempfile(fileext = ".docx")
+        download.file(url, destfile = temp_file, mode = "wb")
+        # Read the .docx file using officer
+        doc <- read_docx(temp_file)
+        # Convert docx to html element using code from src
+        docx_to_html(doc)
+      }, error = function(e) {
+        HTML(paste("Unable to read file:", e$message))
+      })
+    } else {
+      HTML('')
+    }
   })
 }
 
