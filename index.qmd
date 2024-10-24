@@ -238,8 +238,10 @@ mermaid`${mermaidChart}`
 #| viewerHeight: 600
 
 ## file: app.R
-{{< include "src/docx_to_html.R" >}} # import docx_to_html function
-{{< include "src/shinyapp_example.R" >}} # import server & ui code
+# import docx_to_html function
+{{< include "src/docx_to_html.R" >}} 
+ # import server & ui code
+{{< include "src/shinyapp_example.R" >}}
 
 
 
