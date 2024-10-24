@@ -24,30 +24,29 @@ docx_to_html <- function(doc) {
   
   # Step through the document content rowwise to render paragraphs, headers, tables, and page breaks
   for (i in 1:nrow(doc_content)) {
+    # close the row and table if the previous row was part of a table
+    if (is_table & !doc_content$content_type[i] %in% "table cell") {
+      html_content <- paste0(html_content, "</tr></table>")  # Close row and table
+      is_table <- FALSE # reset to false
+    }
     # if row is paragraph type ...
     if (doc_content$content_type[i] %in% "paragraph") {
-      # close the row and table if the previous row was part of a table
-      if (is_table) {
-        html_content <- paste0(html_content, "</tr></table>")  # Close row and table
-        is_table <- FALSE # reset to false
-      }
       # insert a horizontal line if a page break is present
       if (tolower(doc_content$text[i]) %in% 'page break') {
         html_content <- paste0(html_content, htmltools::hr())
       # otherwise, if a heading style, insert text with a heading tag (add +1 to heading # as we assign title as h1 later)  
-      } else if (grepl("heading [1-9]", doc_content$style_name[i])) {
-        header = gsub("heading ([1-9])", "\\1", doc_content$style_name[i])
-        html_content <- paste0(html_content,
-                               switch(as.numeric(header)+1,
-                                      htmltools::h1(doc_content$text[i]),
-                                      htmltools::h2(doc_content$text[i]),
-                                      htmltools::h3(doc_content$text[i]),
-                                      htmltools::h4(doc_content$text[i]),
-                                      htmltools::h5(doc_content$text[i]),
-                                      htmltools::h6(doc_content$text[i]),
-                                      htmltools::h7(doc_content$text[i]),
-                                      htmltools::h8(doc_content$text[i]),
-                                      htmltools::h9(doc_content$text[i]))
+      } else if (grepl("heading [1-5]", doc_content$style_name[i])) {
+        header = gsub("heading ([1-5])", "\\1", doc_content$style_name[i])
+        html_content <- paste0(
+          html_content,
+          switch(as.numeric(header)+1,
+                 htmltools::h1(doc_content$text[i]),
+                 htmltools::h2(doc_content$text[i]),
+                 htmltools::h3(doc_content$text[i]),
+                 htmltools::h4(doc_content$text[i]),
+                 htmltools::h5(doc_content$text[i]),
+                 htmltools::h6(doc_content$text[i])
+          )
         )
       # otherwise, if a title style, insert text with h1 tags
       } else if (tolower(doc_content$style_name[i]) %in% "title") {
