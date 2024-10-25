@@ -1,6 +1,6 @@
 ### write_metadata.R
-### This script can be sourced to interactively write a new metadata row to metadata.csv
-###
+### This script can be sourced on your local machine to interactively write a new metadata row to metadata.csv
+### Working directory should be set to head of cloned repo (dstt_catalog_demo/)
 
 # Read in current metadata file
 metadata <- read.csv('metadata.csv')
@@ -31,9 +31,6 @@ get_value <- function(col) {
   }
   col_value
 }
-
-# Product_ID ----------------------------
-product_id <- generate_unid(1, metadata$Product_ID)
 
 # Connection ----------------------------
 # ask for data connection and validate
@@ -76,6 +73,8 @@ for (col in colnames(metadata)[!colnames(metadata) %in% c('Product_ID', 'Connect
 }
 
 # Create new row for df -----------------
+# set product_id to NA for now (it will be filled in later along with any other NA values)
+product_id <- NA
 # create a one-row data frame and fill it with the previously set values
 row <- data.frame(matrix(ncol=ncol(metadata), nrow=1))
 names(row) <- names(metadata)
@@ -91,6 +90,9 @@ sendit <- readline('Write new line to metadata.csv? "y" to send it')
 if (tolower(sendit)=='y') {
   # check to make sure formatting is the same between files
   metadata_new <- rbind(metadata, row)
+  # fill in unids 
+  na_id <- is.na(metadata_new$Product_ID)
+  metadata_new$Product_ID[na_id] <- generate_unid(metadata_new$Product_ID[na_id], metadata_new$Product_ID)
   # write new file (should be the same besides 1 additional row) to metadata.csv
   write.csv(metadata_new, file='metadata.csv', append=FALSE, row.names=FALSE, quote=FALSE, na='')
 } else {
