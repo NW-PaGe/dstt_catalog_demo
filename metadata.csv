@@ -25,4 +25,4 @@ Product_ID,Product_Name,Location,Steward,Source,Users,Keywords,PII,Connection
 ,seq_results,local,PHL,BINFX,PHL,sequencing;results;accessions;variants;lineages,No,data/seq_results/results_with_ncbi_run170.csv
 ,seq_results,local,PHL,BINFX,PHL,sequencing;results;accessions;variants;lineages,No,data/seq_results/results_with_ncbi_run172.csv
 ,seq_results,local,PHL,BINFX,PHL,sequencing;results;accession;variants;lineages,No,data/seq_results/results_with_ncbi_run172b.csv
-,,,,,,,,data/seq_report/SequencingReport_2024-01-30.docx
+,seq_report,network_drive,MEP,,Public,report:variants;lineages,No,data/seq_report/SequencingReport_2024-01-30.docx
