@@ -101,8 +101,8 @@ server <- function(input, output, session) {
     if (!is.null(input$product_name) && input$product_name != "") {
       data <- subset(data, Product_Name == input$product_name)
     }
-    if (!is.null(input$keywords) && input$keywords != "") {
-      data <- subset(data, Keywords == input$keywords)
+    if (input$keywords != "") {
+      data <- subset(data, grepl(input$keywords, Keywords, ignore.case = TRUE))
     }
     if (!is.null(input$location) && input$location != "All") {
       data <- subset(data, Location == input$location)
