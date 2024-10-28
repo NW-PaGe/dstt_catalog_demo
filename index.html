@@ -542,8 +542,8 @@ server &lt;- function(input, output, session) {
     if (!is.null(input$product_name) &amp;&amp; input$product_name != "") {
       data &lt;- subset(data, Product_Name == input$product_name)
     }
-    if (!is.null(input$keywords) &amp;&amp; input$keywords != "") {
-      data &lt;- subset(data, Keywords == input$keywords)
+    if (input$keywords != "") {
+      data &lt;- subset(data, grepl(input$keywords, Keywords, ignore.case = TRUE))
     }
     if (!is.null(input$location) &amp;&amp; input$location != "All") {
       data &lt;- subset(data, Location == input$location)
