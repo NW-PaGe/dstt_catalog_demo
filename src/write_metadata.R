@@ -85,7 +85,7 @@ for (col in names(metadata)) {
 head(row)
 
 # Write new csv -------------------------
-sendit <- readline('Write new line to metadata.csv? "y" to send it')
+sendit <- readline('Write new line to metadata.csv? "y" to send it: ')
 
 if (tolower(sendit)=='y') {
   # check to make sure formatting is the same between files
@@ -94,7 +94,7 @@ if (tolower(sendit)=='y') {
   na_id <- is.na(metadata_new$Product_ID)
   metadata_new$Product_ID[na_id] <- generate_unid(metadata_new$Product_ID[na_id], metadata_new$Product_ID)
   # write new file (should be the same besides 1 additional row) to metadata.csv
-  write.csv(metadata_new, file='metadata.csv', append=FALSE, row.names=FALSE, quote=FALSE, na='')
+  write.csv(metadata_new, file='metadata.csv', row.names=FALSE, quote=FALSE, na='')
 } else {
   cat('File was not written; no update to metadata.csv')
 }
