@@ -21,7 +21,7 @@ get_value <- function(col) {
       example_vals <- paste0(substr(example_vals, 1, 80), '...')
     }
     # ask for column value
-    prompt <- paste0('Enter ', col, ': (e.g., ', paste(example_vals, collapse=', '), ') ')
+    prompt <- paste0('Enter ', col, ': (e.g., ', example_vals, ') ')
     col_value <- readline(prompt)
     # print typed value and confirm
     cat(col, ': ', col_value, '\n', sep='')
