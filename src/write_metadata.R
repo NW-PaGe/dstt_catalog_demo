@@ -9,9 +9,10 @@ metadata <- read.csv('metadata.csv')
 source('src/generate_unid.R')
 
 # create function to ask for metadata inputs and validate input
-get_value <- function(col) {
+get_value <- function(col, name=NA) {
   valid <- 'n'
   while (tolower(valid) != 'y') {
+    cat('\n')
     # get set of example values to print
     example_vals <- unique(metadata[col])
     example_vals <- example_vals[!is.na(example_vals) & example_vals != '']
@@ -20,16 +21,40 @@ get_value <- function(col) {
     if (nchar(example_vals) > 80) {
       example_vals <- paste0(substr(example_vals, 1, 80), '...')
     }
-    # ask for column value
-    prompt <- paste0('Enter ', col, ': (e.g., ', example_vals, ') ')
-    col_value <- readline(prompt)
+    prompted <- FALSE
+    # get set of values specific to existing product name (if applicable)
+    if (!is.na(name)) {
+      prompted <- TRUE # set flag to not repeat prompt later
+      product_vals <- unique(metadata[metadata$Product_Name==name, col])
+      product_vals <- product_vals[!is.na(product_vals) & product_vals != '']
+      if (length(product_vals) > 0) {
+        # ask for column value
+        cat(paste0('Enter ', col, ': (e.g., ', example_vals, ') \n'))
+        cat(paste0(1:length(product_vals), ': ', product_vals, ' \n', collapse=""))
+        product_prompt <- 'Enter # to duplicate existing value or enter new value: '
+        col_value <- readline(product_prompt)
+        if (col_value %in% paste0(1:length(product_vals))) {
+          col_value <- product_vals[as.numeric(col_value)]
+        }
+      } else {
+        prompted <- FALSE # don't prompt w/existing values if none exist
+      }
+    }
+    # run this prompt if existing values were not used
+    if (!prompted) {
+      # ask for column value
+      prompt <- paste0('Enter ', col, ': (e.g., ', example_vals, ') ')
+      col_value <- readline(prompt)
+    }
+    
     # print typed value and confirm
     cat(col, ': ', col_value, '\n', sep='')
     cat('y: continue\n')
     cat('n: re-enter value\n')
     valid <- readline('Continue? y/n ')
   }
-  col_value
+  
+  return(col_value)
 }
 
 # Connection ----------------------------
@@ -50,7 +75,7 @@ while(file.info(connection)$isdir) {
     }
     cat(i+1, ': ', '*Start over*', sep='')
     # Read user input
-    selection <- as.integer(readline(prompt = "Enter your selection: "))
+    selection <- as.integer(readline("Enter your selection: "))
     # Validate selection
     if (is.na(selection) || selection < 1 || selection > length(files)+1) {
       cat("Invalid selection. Please try again.\n")
@@ -63,13 +88,24 @@ while(file.info(connection)$isdir) {
       connection <- file.path(connection_old, files[selection])
     }
   }
+  if (!file.info(connection)$isdir & connection %in% metadata$Connection) {
+    cat('Connection already exists in metadata.csv.\n')
+    dup_conn <- readline('Are you sure you want to create a new record for a duplicate connection? (y/n): ')
+    if (tolower(dup_conn) != 'y') {
+      connection <- connection_old
+    }
+  }
 }
-cat(glue::glue('Connection: {connection}'))
+cat(glue::glue('Connection: {connection}\n'))
 
 # All other cols ------------------------
 # ask for other metadata values, print back values, and confirm with user that values are correct
 for (col in colnames(metadata)[!colnames(metadata) %in% c('Product_ID', 'Connection')]) {
-  assign(tolower(col), get_value(col))
+  if (exists('product_name')) {
+    assign(tolower(col), get_value(col, product_name))
+  } else {
+    assign(tolower(col), get_value(col))
+  }
 }
 
 # Create new row for df -----------------
@@ -98,3 +134,5 @@ if (tolower(sendit)=='y') {
 } else {
   cat('File was not written; no update to metadata.csv')
 }
+
+rm(product_name) # ensure product name is removed if user decided to rerun script w/o clearing env
