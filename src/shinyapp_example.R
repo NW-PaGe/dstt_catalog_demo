@@ -1,8 +1,6 @@
 library(shiny)
 library(DT)
 library(officer)
-library(dplyr)
-library(stringr)
 
 # Read the CSV file when the script starts
 metadata <- read.csv(url("https://raw.githubusercontent.com/NW-PaGe/dstt_catalog_demo/refs/heads/main/metadata.csv"))
