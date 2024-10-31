@@ -239,7 +239,9 @@ mermaid`${mermaidChart}`
 
 ## file: app.R
 # import docx_to_html function
-{{< include "src/docx_to_html.R" >}} 
+{{< include "src/docx_to_html.R" >}}
+# import split_values.R
+{{< include "src/split_values.R" >}}
  # import server & ui code
 {{< include "src/shinyapp_example.R" >}}
 
