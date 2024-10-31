@@ -1,3 +1,4 @@
+# import server & ui code
 library(shiny)
 library(DT)
 library(officer)
@@ -39,6 +40,78 @@ ui <- fluidPage(
       .filter-tag:hover .remove-icon {
         opacity: 1;
       }
+      #fileListContent {
+        max-height: none;
+        overflow-y: hidden;
+      }
+      #fileListContent li:nth-child(n+7) {
+        display: none;
+      }
+      #fileListContent li:nth-child(6) {
+        white-space: nowrap;
+        overflow: visible;
+        text-overflow: ellipsis;
+        opacity: 0.7;
+        position: relative;
+        padding-right: 20px;
+        list-style-type: disc !important;
+      }
+      #fileListContent li:nth-child(6) a {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: block;
+      }
+      #fileListContent li:nth-child(6)::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: -20px;
+        right: 0;
+        height: 60%;
+        background: linear-gradient(to bottom, transparent, white);
+        pointer-events: none;
+      }
+      #fileListContent.expanded li {
+        display: list-item !important;
+        white-space: normal !important;
+        opacity: 1 !important;
+      }
+      #fileListContent.expanded li:nth-child(6)::after {
+        display: none;
+      }
+      #toggleBtn {
+        color: #3498db;
+        cursor: pointer;
+        border: none;
+        background: none;
+        padding: 5px 10px;
+        width: 100%;
+        text-align: center;
+        margin-top: 10px;
+        font-size: 16px;
+      }
+      .file-list-ul {
+        list-style-type: disc !important;
+        padding-left: 20px;
+        margin: 0;
+      }
+      .file-list-ul li {
+        list-style-type: disc !important;
+      }
+    ")),
+    tags$script(HTML("
+      function toggleFileList() {
+        var content = document.getElementById('fileListContent');
+        var btn = document.getElementById('toggleBtn');
+        if (content.classList.contains('expanded')) {
+          content.classList.remove('expanded');
+          btn.innerHTML = '▾';
+        } else {
+          content.classList.add('expanded');
+          btn.innerHTML = '▴';
+        }
+      }
     "))
   ),
   titlePanel("Filtered Metadata Viewer"),
@@ -76,16 +149,29 @@ server <- function(input, output, session) {
   observe({
     output$fileList <- renderUI({
       file_paths <- filteredData()$Connection
-      tags$ul(
-        lapply(seq_along(file_paths), function(i) {
-          tags$li(
-            actionLink(
-              inputId = paste0("file_", i),
-              label = file_paths[i],
-              onclick = sprintf("Shiny.setInputValue('last_clicked', '%s', {priority: 'event'});", paste0("file_", i))
-            )
+      
+      tagList(
+        tags$div(
+          id = "fileListContent",
+          tags$ul(
+            class = "file-list-ul",
+            lapply(seq_along(file_paths), function(i) {
+              tags$li(
+                actionLink(
+                  inputId = paste0("file_", i),
+                  label = file_paths[i],
+                  onclick = sprintf("Shiny.setInputValue('last_clicked', '%s', {priority: 'event'});", 
+                                  paste0("file_", i))
+                )
+              )
+            })
           )
-        })
+        ),
+        tags$button(
+          id = "toggleBtn",
+          onclick = "toggleFileList()",
+          "▾"
+        )
       )
     })
   }, priority = 1000)
@@ -122,7 +208,6 @@ server <- function(input, output, session) {
     
     return(data)
   })
-  
   # Modified filters summary with enhanced styling
   output$filtersSummary <- renderUI({
     filters <- list()
@@ -217,6 +302,7 @@ server <- function(input, output, session) {
     }
   })
   
+  # Render docx content
   output$docx_content <- renderUI({
     req(selectedFile())  # Ensure there is a selected file
     if (grepl('.docx', selectedFile())) {
