@@ -7,7 +7,7 @@ split_values <- function(x, sep=';', unlist=FALSE) {
   #' 
   #' @param x character or vector of characters
   #' @param sep string to split on; default ";"
-  #' @param unlist whether or not to unlist the character list; default TRUE
+  #' @param unlist whether or not to unlist the character list; default FALSE
   #' @return a list (or vector, if unlist=TRUE) of character elements
   #' 
   #' @example split_values(x=c('this', 'string; is', 'split')) 
