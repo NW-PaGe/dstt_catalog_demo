@@ -123,11 +123,11 @@ ui <- fluidPage(
       textInput("keywords", "Keywords", ""),
       
       # Static text inputs dynamically pulled from metadata.csv for certain columns
-      selectInput("location", "Location", choices = c("All", unique(metadata$Location)), selected = "All"),
-      selectInput("steward", "Steward", choices = c("All", unique(metadata$Steward)), selected = "All"),
-      selectInput("users", "Users", choices = c("All", unique(metadata$Users)), selected = "All"),
-      selectInput("pii", "PII", choices = c("All", unique(metadata$PII)), selected = "All"),
-      selectInput("source", "Source", choices = c("All", unique(metadata$Source)), selected = "All")
+      selectInput("location", "Location", choices = c("All", unique(split_values(metadata$Location, unlist=T))), selected = "All"),
+      selectInput("steward", "Steward", choices = c("All", unique(split_values(metadata$Steward, unlist=T))), selected = "All"),
+      selectInput("users", "Users", choices = c("All", unique(split_values(metadata$Users, unlist=T))), selected = "All"),
+      selectInput("pii", "PII", choices = c("All", unique(split_values(metadata$PII, unlist=T))), selected = "All"),
+      selectInput("source", "Source", choices = c("All", unique(split_values(metadata$Source, unlist=T))), selected = "All")
     ),
     mainPanel(
       h3("Filters Applied:"),
@@ -182,28 +182,28 @@ server <- function(input, output, session) {
     
     # Apply filters based on input values
     if (!is.null(input$product_id) && input$product_id != "") {
-      data <- subset(data, Product_ID == input$product_id)
+      data <- subset(data, grepl(input$product_id, Product_ID, ignore.case = TRUE))
     }
     if (!is.null(input$product_name) && input$product_name != "") {
-      data <- subset(data, Product_Name == input$product_name)
+      data <- subset(data, grepl(input$product_name, Product_Name, ignore.case = TRUE))
     }
     if (input$keywords != "") {
       data <- subset(data, grepl(input$keywords, Keywords, ignore.case = TRUE))
     }
     if (!is.null(input$location) && input$location != "All") {
-      data <- subset(data, Location == input$location)
+      data <- subset(data, sapply(split_values(Location), function(.) input$location %in% .))
     }
     if (!is.null(input$steward) && input$steward != "All") {
-      data <- subset(data, Steward == input$steward)
+      data <- subset(data, sapply(split_values(Steward), function(.) input$steward %in% .))
     }
     if (!is.null(input$users) && input$users != "All") {
-      data <- subset(data, Users == input$users)
+      data <- subset(data, sapply(split_values(Users), function(.) input$users %in% .))
     }
     if (!is.null(input$pii) && input$pii != "All") {
-      data <- subset(data, PII == input$pii)
+      data <- subset(data, sapply(split_values(PII), function(.) input$pii %in% .))
     }
     if (!is.null(input$source) && input$source != "All") {
-      data <- subset(data, Source == input$source)
+      data <- subset(data, sapply(split_values(Source), function(.) input$source %in% .))
     }
     
     return(data)
