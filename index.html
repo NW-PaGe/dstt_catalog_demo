@@ -438,6 +438,30 @@ docx_to_html &lt;- function(doc) {
   HTML(html_content)
 }
 
+# import split_values.R
+library(stringr)
+
+split_values &lt;- function(x, sep=';', unlist=FALSE) {
+  #' split_values
+  #' 
+  #' Function splits char elements inside char vectors and removes surrounding whitespace
+  #' 
+  #' @param x character or vector of characters
+  #' @param sep string to split on; default ";"
+  #' @param unlist whether or not to unlist the character list; default FALSE
+  #' @return a list (or vector, if unlist=TRUE) of character elements
+  #' 
+  #' @example split_values(x=c('this', 'string; is', 'split')) 
+  #' @example split_values(x=c('This will be return as a vector'), sep=',', unlist=TRUE)
+  #' 
+  x = stringr::str_split(x, sep) # split by sep and return string
+  x = sapply(x, trimws) # trim whitespace of strings in list
+  if (unlist) {
+    x = unlist(x)
+  }
+  return(x)
+}
+
  # import server &amp; ui code
 # import server &amp; ui code
 library(shiny)
@@ -564,11 +588,11 @@ ui &lt;- fluidPage(
       textInput("keywords", "Keywords", ""),
       
       # Static text inputs dynamically pulled from metadata.csv for certain columns
-      selectInput("location", "Location", choices = c("All", unique(metadata$Location)), selected = "All"),
-      selectInput("steward", "Steward", choices = c("All", unique(metadata$Steward)), selected = "All"),
-      selectInput("users", "Users", choices = c("All", unique(metadata$Users)), selected = "All"),
-      selectInput("pii", "PII", choices = c("All", unique(metadata$PII)), selected = "All"),
-      selectInput("source", "Source", choices = c("All", unique(metadata$Source)), selected = "All")
+      selectInput("location", "Location", choices = c("All", unique(split_values(metadata$Location, unlist=T))), selected = "All"),
+      selectInput("steward", "Steward", choices = c("All", unique(split_values(metadata$Steward, unlist=T))), selected = "All"),
+      selectInput("users", "Users", choices = c("All", unique(split_values(metadata$Users, unlist=T))), selected = "All"),
+      selectInput("pii", "PII", choices = c("All", unique(split_values(metadata$PII, unlist=T))), selected = "All"),
+      selectInput("source", "Source", choices = c("All", unique(split_values(metadata$Source, unlist=T))), selected = "All")
     ),
     mainPanel(
       h3("Filters Applied:"),
@@ -623,28 +647,28 @@ server &lt;- function(input, output, session) {
     
     # Apply filters based on input values
     if (!is.null(input$product_id) &amp;&amp; input$product_id != "") {
-      data &lt;- subset(data, Product_ID == input$product_id)
+      data &lt;- subset(data, grepl(input$product_id, Product_ID, ignore.case = TRUE))
     }
     if (!is.null(input$product_name) &amp;&amp; input$product_name != "") {
-      data &lt;- subset(data, Product_Name == input$product_name)
+      data &lt;- subset(data, grepl(input$product_name, Product_Name, ignore.case = TRUE))
     }
     if (input$keywords != "") {
       data &lt;- subset(data, grepl(input$keywords, Keywords, ignore.case = TRUE))
     }
     if (!is.null(input$location) &amp;&amp; input$location != "All") {
-      data &lt;- subset(data, Location == input$location)
+      data &lt;- subset(data, sapply(split_values(Location), function(.) input$location %in% .))
     }
     if (!is.null(input$steward) &amp;&amp; input$steward != "All") {
-      data &lt;- subset(data, Steward == input$steward)
+      data &lt;- subset(data, sapply(split_values(Steward), function(.) input$steward %in% .))
     }
     if (!is.null(input$users) &amp;&amp; input$users != "All") {
-      data &lt;- subset(data, Users == input$users)
+      data &lt;- subset(data, sapply(split_values(Users), function(.) input$users %in% .))
     }
     if (!is.null(input$pii) &amp;&amp; input$pii != "All") {
-      data &lt;- subset(data, PII == input$pii)
+      data &lt;- subset(data, sapply(split_values(PII), function(.) input$pii %in% .))
     }
     if (!is.null(input$source) &amp;&amp; input$source != "All") {
-      data &lt;- subset(data, Source == input$source)
+      data &lt;- subset(data, sapply(split_values(Source), function(.) input$source %in% .))
     }
     
     return(data)
