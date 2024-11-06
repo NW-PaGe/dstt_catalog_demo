@@ -128,7 +128,8 @@ ui <- fluidPage(
       selectInput("steward", "Steward", choices = c("All", unique(split_values(metadata$Steward, unlist=T))), selected = "All"),
       selectInput("users", "Users", choices = c("All", unique(split_values(metadata$Users, unlist=T))), selected = "All"),
       selectInput("pii", "PII", choices = c("All", unique(split_values(metadata$PII, unlist=T))), selected = "All"),
-      selectInput("source", "Source", choices = c("All", unique(split_values(metadata$Source, unlist=T))), selected = "All")
+      selectInput("source", "Source", choices = c("All", unique(split_values(metadata$Source, unlist=T))), selected = "All"),
+      selectInput("ftype", "File Type", choices = c("All", unique(gsub("^.+\\.(.+)$", "\\1", metadata$Connection))), selected = "All")
     ),
     mainPanel(
       h3("Filters Applied:"),
@@ -162,7 +163,7 @@ server <- function(input, output, session) {
                   inputId = paste0("file_", i),
                   label = file_paths[i],
                   onclick = sprintf("Shiny.setInputValue('last_clicked', '%s', {priority: 'event'});", 
-                                  paste0("file_", i))
+                                    paste0("file_", i))
                 )
               )
             })
@@ -206,6 +207,9 @@ server <- function(input, output, session) {
     if (!is.null(input$source) && input$source != "All") {
       data <- subset(data, sapply(split_values(Source), function(.) input$source %in% .))
     }
+    if (!is.null(input$ftype) && input$ftype != "All") {
+      data <- subset(data, grepl(paste0("\\.", input$ftype), Connection))
+    }
     
     return(data)
   })
@@ -236,6 +240,9 @@ server <- function(input, output, session) {
     }
     if (!is.null(input$source) && input$source != "All") {
       filters$source <- list(label = "Source", value = input$source)
+    }
+    if (!is.null(input$ftype) && input$ftype != "All") {
+      filters$ftype <- list(label = "File Type", value = input$ftype)
     }
     
     if (length(filters) == 0) {
