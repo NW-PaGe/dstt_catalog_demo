@@ -129,7 +129,7 @@ ui <- fluidPage(
       selectInput("users", "Users", choices = c("All", unique(split_values(metadata$Users, unlist=T))), selected = "All"),
       selectInput("pii", "PII", choices = c("All", unique(split_values(metadata$PII, unlist=T))), selected = "All"),
       selectInput("source", "Source", choices = c("All", unique(split_values(metadata$Source, unlist=T))), selected = "All"),
-      selectInput("ftype", "File Type", choices = c("All", unique(gsub("^.+\\.(.+)$", "\\1", metadata$Connection))), selected = "All")
+      selectInput("ftype", "File Type", choices = c("All", unique(tolower(gsub("^.+\\.(.+)$", "\\1", metadata$Connection)))), selected = "All")
     ),
     mainPanel(
       h3("Filters Applied:"),
@@ -208,7 +208,7 @@ server <- function(input, output, session) {
       data <- subset(data, sapply(split_values(Source), function(.) input$source %in% .))
     }
     if (!is.null(input$ftype) && input$ftype != "All") {
-      data <- subset(data, grepl(paste0("\\.", input$ftype), Connection))
+      data <- subset(data, grepl(paste0("\\.", input$ftype), Connection, ignore.case=TRUE))
     }
     
     return(data)
