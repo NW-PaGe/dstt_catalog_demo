@@ -48,8 +48,7 @@ ui <- fluidPage(
       textInput("product_id", "Product ID", ""),
       textInput("product_name", "Product Name", ""),
       textInput("keywords", "Keywords", ""),
-      HTML("<p>Example keywords: <i>variant, genbank, lineage,</i></p>"),
-      #textInput("keywords", "Keywords", "", placeholder = "variant, genbank, lineage"),
+      textInput("keywords", "Keywords", "", placeholder = "variant, genbank, lineage"),
 
 
       
