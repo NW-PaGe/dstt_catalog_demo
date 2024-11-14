@@ -47,7 +47,6 @@ ui <- fluidPage(
       # Static text inputs for certain columns
       textInput("product_id", "Product ID", ""),
       textInput("product_name", "Product Name", ""),
-      textInput("keywords", "Keywords", ""),
       textInput("keywords", "Keywords", "", placeholder = "variant, genbank, lineage"),
 
 
