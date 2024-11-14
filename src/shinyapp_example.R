@@ -121,7 +121,9 @@ ui <- fluidPage(
       # Static text inputs for certain columns
       textInput("product_id", "Product ID", ""),
       textInput("product_name", "Product Name", ""),
-      textInput("keywords", "Keywords", ""),
+      textInput("keywords", "Keywords", "", placeholder = "variant, genbank, lineage"),
+
+
       
       # Static text inputs dynamically pulled from metadata.csv for certain columns
       selectInput("location", "Location", choices = c("All", unique(split_values(metadata$Location, unlist=T))), selected = "All"),
