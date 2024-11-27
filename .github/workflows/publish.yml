@@ -24,9 +24,12 @@ jobs:
 
         - name: Install additional R dependencies
           run: |
-            install.packages("httpuv")
-            install.packages("later")
-    
+            Rscript -e "
+            # install.packages('renv');
+            # renv::restore();
+            install.packages('httpuv');
+            install.packages('later')
+            "
           # 6. Optional: Install system dependencies (if needed for certain packages)
         - name: Install system dependencies
           run: |
