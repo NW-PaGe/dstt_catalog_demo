@@ -11,7 +11,6 @@ format:
     mainfont: Manrope
 ---
 
-
 ::: container
 
 ::: content
@@ -38,6 +37,19 @@ This is a static website and demo of a data catalog. Search for data objects in 
 :::
 
 :::: {.splash-page}
+
+:::{.column-screen-inset id="dag"}
+
+```{shinylive-r}
+#| standalone: true
+#| components: [editor, viewer]
+#| viewerHeight: 600
+
+## file: app.R
+# import dag
+{{< include "src/dag.R" >}}
+```
+:::
 
 :::{.column-screen-inset id="metadata-viewer"}
 
