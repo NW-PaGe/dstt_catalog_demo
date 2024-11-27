@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.6.39">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,10 +69,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ff9192afc05e137288b20e4a6f267c29.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-e37066bcc61d9e729f6be57fea4eaeeb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <meta name="shinylive:serviceworker_dir" content=".">
 <script src="site_libs/quarto-contrib/shinylive-0.5.0/shinylive/load-shinylive-sw.js" type="module"></script>
 <script src="site_libs/quarto-contrib/shinylive-0.5.0/shinylive/run-python-blocks.js" type="module"></script>
@@ -109,11 +109,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module" src="site_libs/quarto-ojs/quarto-ojs-runtime.js"></script>
 <link href="site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
 <script type="ojs-define">
+
 {"contents":[{"name":"metadata_json","value":"[\n  {\n    \"Product_Name\": \"wa_genbank\",\n    \"parent\": \"theiacov_output\",\n    \"child\": \"cov_sequencing_report\",\n    \"direct_parent\": true,\n    \"direct_child\": true\n  },\n  {\n    \"Product_Name\": \"wa_genbank\",\n    \"parent\": \"starlims\",\n    \"child\": \"cov_sequencing_report\",\n    \"direct_parent\": true,\n    \"direct_child\": true\n  },\n  {\n    \"Product_Name\": \"lineages\",\n    \"child\": \"cov_sequencing_report\",\n    \"direct_child\": true\n  },\n  {\n    \"Product_Name\": \"theiacov_output\",\n    \"child\": \"wa_genbank\",\n    \"direct_child\": true\n  },\n  {\n    \"Product_Name\": \"theiacov_output\",\n    \"child\": \"lineages\",\n    \"direct_child\": true\n  },\n  {\n    \"Product_Name\": \"cov_sequencing_report\",\n    \"parent\": \"lineages\",\n    \"direct_parent\": true\n  },\n  {\n    \"Product_Name\": \"cov_sequencing_report\",\n    \"parent\": \"wa_genbank\",\n    \"direct_parent\": true\n  },\n  {\n    \"Product_Name\": \"starlims\",\n    \"child\": \"wa_genbank\",\n    \"direct_child\": true\n  }\n]"}]}
+
 </script>
+
 <script type="ojs-define">
+
 {"contents":[{"name":"products","value":["wa_genbank","lineages","theiacov_output","cov_sequencing_report","starlims"]}]}
+
 </script>
+
 
 
 </head>
@@ -171,19 +177,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content page-columns page-full" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><h1 class="css-qp8v3 title display-7">
+<div class="css-nzw60t">
+<p>NORTHWEST PATHOGEN GENOMICS CENTER OF EXCELLENCE</p>
+</div>
+<p>Data Catalog</p>
+</h1></header>
 
 
 
 
 <div class="container">
 <div class="content">
-<h1 class="css-qp8v3">
-<div class="css-nzw60t">
-<p>NORTHWEST PATHOGEN GENOMICS CENTER OF EXCELLENCE</p>
-</div>
-<p>Data Catalog</p>
-</h1>
+
 <p>This is a static website and demo of a data catalog. Search for data objects in the dashboard below.</p>
 <p><a href="#shinyapp" class="button">dashboard</a></p>
 <!--  -->
@@ -595,7 +601,8 @@ ui &lt;- fluidPage(
       selectInput("steward", "Steward", choices = c("All", unique(split_values(metadata$Steward, unlist=T))), selected = "All"),
       selectInput("users", "Users", choices = c("All", unique(split_values(metadata$Users, unlist=T))), selected = "All"),
       selectInput("pii", "PII", choices = c("All", unique(split_values(metadata$PII, unlist=T))), selected = "All"),
-      selectInput("source", "Source", choices = c("All", unique(split_values(metadata$Source, unlist=T))), selected = "All")
+      selectInput("source", "Source", choices = c("All", unique(split_values(metadata$Source, unlist=T))), selected = "All"),
+      selectInput("ftype", "File Type", choices = c("All", unique(tolower(gsub("^.+\\.(.+)$", "\\1", metadata$Connection)))), selected = "All")
     ),
     mainPanel(
       h3("Filters Applied:"),
@@ -629,7 +636,7 @@ server &lt;- function(input, output, session) {
                   inputId = paste0("file_", i),
                   label = file_paths[i],
                   onclick = sprintf("Shiny.setInputValue('last_clicked', '%s', {priority: 'event'});", 
-                                  paste0("file_", i))
+                                    paste0("file_", i))
                 )
               )
             })
@@ -673,6 +680,9 @@ server &lt;- function(input, output, session) {
     if (!is.null(input$source) &amp;&amp; input$source != "All") {
       data &lt;- subset(data, sapply(split_values(Source), function(.) input$source %in% .))
     }
+    if (!is.null(input$ftype) &amp;&amp; input$ftype != "All") {
+      data &lt;- subset(data, grepl(paste0("\\.", input$ftype), Connection, ignore.case=TRUE))
+    }
     
     return(data)
   })
@@ -703,6 +713,9 @@ server &lt;- function(input, output, session) {
     }
     if (!is.null(input$source) &amp;&amp; input$source != "All") {
       filters$source &lt;- list(label = "Source", value = input$source)
+    }
+    if (!is.null(input$ftype) &amp;&amp; input$ftype != "All") {
+      filters$ftype &lt;- list(label = "File Type", value = input$ftype)
     }
     
     if (length(filters) == 0) {
@@ -830,38 +843,38 @@ shinyApp(ui = ui, server = server)
 
 
 ## file: metadata.csv
-Product_ID,Product_Name,Location,Steward,Source,Users,Keywords,PII,Connection
-4047648790,wa_genbank,network_drive,DIQA,genbank,DIQA; MEP,ncbi;results;accessions;virus;refseq;upload,No,data/wa_genbank/wa_genbank_2024-10-21.csv
-5754199350,wa_genbank,network_drive,DIQA,genbank,DIQA; MEP,ncbi;results;accessions;virus;refseq;upload,No,data/wa_genbank/wa_genbank_2024-10-14.csv
-9000442265,wa_genbank,network_drive,DIQA,genbank,DIQA; MEP,ncbi;results;accessions;virus;refseq;upload,No,data/wa_genbank/wa_genbank_2024-10-07.csv
-9325481063,wa_genbank,network_drive,DIQA,genbank,DIQA; MEP,ncbi;results;accessions;virus;refseq;upload,No,data/wa_genbank/wa_genbank_2024-09-30.csv
-6072493491,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-03.csv
-5645041168,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-04.csv
-3344276255,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-05.csv
-2307679692,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-06.csv
-1512337206,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-07.csv
-2824302477,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-10.csv
-3748996607,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-11.csv
-2008766938,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-12.csv
-7300648833,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-13.csv
-3855770051,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-14.csv
-3092745195,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-17.csv
-4520627002,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-18.csv
-3932969825,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-19.csv
-6873647526,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-20.csv
-8109343197,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-21.csv
-9323872357,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-24.csv
-7334703566,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-25.csv
-8858668888,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-26.csv
-7829333381,seq_results,local,PHL,BINFX,PHL,sequencing;results;accessions;variants;lineages,No,data/seq_results/results_with_ncbi_run163.csv
-9936639753,seq_results,local,PHL,BINFX,PHL,sequencing;results;accessions;variants;lineages,No,data/seq_results/results_with_ncbi_run170.csv
-2463472188,seq_results,local,PHL,BINFX,PHL,sequencing;results;accessions;variants;lineages,No,data/seq_results/results_with_ncbi_run172.csv
-8971627055,seq_results,local,PHL,BINFX,PHL,sequencing;results;accessions;variants;lineages,No,data/seq_results/results_with_ncbi_run172b.csv
-7253259313,seq_report,network_drive,MEP,,Public,report:variants;lineages,No,data/seq_report/SequencingReport_2024-01-30.docx
-9715465027,genbank,network_drive,DIQA,NCBI,DIQA,ncbi;genbank;lineages;repository;refseq,No,data/genbank/raw_genbank_2024-09-30.parquet
-8085881829,genbank,network_drive,DIQA,NCBI,DIQA,ncbi;genbank;lineages;repository;refseq,No,data/genbank/raw_genbank_2024-10-07.parquet
-7394149033,genbank,network_drive,DIQA,NCBI,DIQA,ncbi;genbank;lineages;repository;refseq,No,data/genbank/raw_genbank_2024-10-14.parquet
-3590275606,genbank,network_drive,DIQA,NCBI,DIQA,ncbi;genbank;lineages;repository;refseq,No,data/genbank/raw_genbank_2024-10-21.parquet
+Product_ID,Product_Name,Location,Steward,Source,Users,Keywords,PII,Connection,Parent,Child
+4047648790,wa_genbank,network_drive,DIQA,genbank,DIQA; MEP,ncbi;results;accessions;virus;refseq;upload,No,data/wa_genbank/wa_genbank_2024-10-21.csv,genbank,seq_report
+5754199350,wa_genbank,network_drive,DIQA,genbank,DIQA; MEP,ncbi;results;accessions;virus;refseq;upload,No,data/wa_genbank/wa_genbank_2024-10-14.csv,genbank,seq_report
+9000442265,wa_genbank,network_drive,DIQA,genbank,DIQA; MEP,ncbi;results;accessions;virus;refseq;upload,No,data/wa_genbank/wa_genbank_2024-10-07.csv,genbank,seq_report
+9325481063,wa_genbank,network_drive,DIQA,genbank,DIQA; MEP,ncbi;results;accessions;virus;refseq;upload,No,data/wa_genbank/wa_genbank_2024-09-30.csv,genbank,seq_report
+6072493491,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-03.csv,,seq_report
+5645041168,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-04.csv,,seq_report
+3344276255,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-05.csv,,seq_report
+2307679692,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-06.csv,,seq_report
+1512337206,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-07.csv,,seq_report
+2824302477,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-10.csv,,seq_report
+3748996607,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-11.csv,,seq_report
+2008766938,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-12.csv,,seq_report
+7300648833,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-13.csv,,seq_report
+3855770051,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-14.csv,,seq_report
+3092745195,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-17.csv,,seq_report
+4520627002,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-18.csv,,seq_report
+3932969825,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-19.csv,,seq_report
+6873647526,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-20.csv,,seq_report
+8109343197,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-21.csv,,seq_report
+9323872357,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-24.csv,,seq_report
+7334703566,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-25.csv,,seq_report
+8858668888,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-26.csv,,seq_report
+7829333381,seq_results,local,PHL,BINFX,PHL,sequencing;results;accessions;variants;lineages,No,data/seq_results/results_with_ncbi_run163.csv,,seq_report
+9936639753,seq_results,local,PHL,BINFX,PHL,sequencing;results;accessions;variants;lineages,No,data/seq_results/results_with_ncbi_run170.csv,,seq_report
+2463472188,seq_results,local,PHL,BINFX,PHL,sequencing;results;accessions;variants;lineages,No,data/seq_results/results_with_ncbi_run172.csv,,seq_report
+8971627055,seq_results,local,PHL,BINFX,PHL,sequencing;results;accessions;variants;lineages,No,data/seq_results/results_with_ncbi_run172b.csv,,seq_report
+7253259313,seq_report,network_drive,MEP,,Public,report:variants;lineages,No,data/seq_report/SequencingReport_2024-01-30.docx,wa_genbank;lineages;seq_results,
+9715465027,genbank,network_drive,DIQA,NCBI,DIQA,ncbi;genbank;lineages;repository;refseq,No,data/genbank/raw_genbank_2024-09-30.parquet,,wa_genbank
+8085881829,genbank,network_drive,DIQA,NCBI,DIQA,ncbi;genbank;lineages;repository;refseq,No,data/genbank/raw_genbank_2024-10-07.parquet,,wa_genbank
+7394149033,genbank,network_drive,DIQA,NCBI,DIQA,ncbi;genbank;lineages;repository;refseq,No,data/genbank/raw_genbank_2024-10-14.parquet,,wa_genbank
+3590275606,genbank,network_drive,DIQA,NCBI,DIQA,ncbi;genbank;lineages;repository;refseq,No,data/genbank/raw_genbank_2024-10-21.parquet,,wa_genbank
 
 </code></pre>
 </div>
@@ -963,8 +976,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -1075,7 +1086,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
