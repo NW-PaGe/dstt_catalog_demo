@@ -47,7 +47,7 @@ This is a static website and demo of a data catalog. Search for data objects in 
 
 ## file: app.R
 # import dag
-{{< include "src/dag.R" >}}
+{{< include "src/dag/app.R" >}}
 ```
 :::
 
