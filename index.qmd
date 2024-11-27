@@ -11,60 +11,6 @@ format:
     mainfont: Manrope
 ---
 
-```{r}
-#| include: false
-library(dplyr)
-library(jsonlite)
-# # list all files inside ./data besides those with "README" in directory/name
-# data_fp <- list.files('./data', pattern="^[^(.*)(README)].*$", full.names=TRUE, recursive=TRUE)
-
-# read in metadata for our data products:
-metadata_df <- read.csv('metadata.csv', sep='\t')
-
-### DEV: create example metadata df to test with:
-# create new test df with multiple values separated by semicolons:
-metadata_df <- structure(
-  list(
-    Product_Name = c(
-      "wa_genbank",
-      "lineages",
-      "theiacov_output",
-      "cov_sequencing_report",
-      "starlims"),
-    parent = c(
-      "theiacov_output;starlims",
-      NA,
-      NA,
-      "lineages;wa_genbank",
-      NA),
-    child = c(
-      "cov_sequencing_report",
-      "cov_sequencing_report",
-      "wa_genbank;lineages",
-      NA,
-      "wa_genbank")
-  ), row.names = c(NA, 5L), class = "data.frame")
-### DEV end
-
-metadata_df_expanded <- metadata_df %>%
-  # Separate rows for `parent` and `child` columns:
-  tidyr::separate_rows(parent, sep = ";") %>% 
-  tidyr::separate_rows(child, sep = ";") %>% 
-  # Add direct parent/child columns for ojs to track if intermediate link created:
-  mutate(direct_parent = ifelse(is.na(parent), NA, TRUE),
-         direct_child = ifelse(is.na(child), NA, TRUE))
-
-# Convert the metadata dataframe to a list of lists (JavaScript array of objects)
-metadata_df_json <- toJSON(metadata_df_expanded, dataframe = "rows", pretty = TRUE)
-
-# make metadata available to ojs
-ojs_define(metadata_json = metadata_df_json)
-
-# make products (unique names of our data products) available to ojs
-ojs_define(products = unique(metadata_df$Product_Name))
-
-```
-
 
 ::: container
 
@@ -79,11 +25,10 @@ Data Catalog
 
 </h1>
 
-This is a static website and demo of a data catalog. Search for data objects in the dashboard below.
+This is a static website and demo of a data catalog. Search for data objects in the metadata viewer, or visualize data product relationships in the Directed Acyclic Graph (DAG) below.
 
-<a href="#shinyapp" class="button">dashboard</a>
+<a href="#dag" class="button">dag</a> <a href="#metadata-viewer" class="button">metadata viewer</a>
 
-<!-- {{< bi github size=2em href="https://github.com/NW-PaGe/standards" >}} -->
 :::
 
 ::: image
@@ -94,161 +39,20 @@ This is a static website and demo of a data catalog. Search for data objects in 
 
 :::: {.splash-page}
 
-::: {.column-screen-inset}
-
-::: column
-```{ojs}
-//| echo: false
-
-// Create a checkbox input for selecting products
-viewof select_products = Inputs.checkbox(products, {label: "Select products:", value: products})
- 
-```
-
-```{ojs}
-//| echo: false
-
-// Parse the JSON metadata into a JavaScript array of objects
-metadata_js = JSON.parse(metadata_json)
-
-// Function to update parent and child values with intermediate values
-function updateMetadataWithIntermediates(metadata_js, select_products) {
-  // Convert select_products to a Set for faster lookup
-  const selectedSet = new Set(select_products);
-  
-  // Create a map to look up intermediate values
-  const productMap = new Map(metadata_js.map(row => [row.Product_Name, row]));
-
-  return metadata_js.map(row => {
-    const updatedRow = {...row}; // Copy the row to avoid mutating the original
-    if (!selectedSet.has(row.Product_Name)) {
-      // If the product itself is not selected, exclude it from the results
-      return null;
-    }
-    // Update parent if it's not selected
-    if (row.parent && !selectedSet.has(row.parent)) {
-      // Look for the intermediate product to use its parent
-      const intermediateProduct = metadata_js.find(r => r.child === row.Product_Name && selectedSet.has(r.parent));
-      updatedRow.parent = intermediateProduct ? intermediateProduct.parent : null;
-      // Update direct_parent to show indirect linkage
-      updatedRow.direct_parent = false;
-    }
-    // Update child if it's not selected
-    if (row.child && !selectedSet.has(row.child)) {
-      // Look for the intermediate product to use its child
-      const intermediateProduct = metadata_js.find(r => r.parent === row.Product_Name && selectedSet.has(r.child));
-      updatedRow.child = intermediateProduct ? intermediateProduct.child : null;
-      // Update direct_child to show indirect linkage
-      updatedRow.direct_child = false;
-    }
-    return updatedRow;
-  }).filter(row => row !== null); // Remove rows that were excluded
-}
-
-// Apply the update function
-filtered_metadata_js = updateMetadataWithIntermediates(metadata_js, select_products);
-
-```
-
-:::
-
-```{ojs}
-//| echo: false
-
-// Function to generate mermaid syntax based on selected products
-generateMermaidChart = (select_products, metadata_js) => {
-  // Ensure select_products is an array
-  select_products = Array.isArray(select_products) ? select_products : [];
-  
-  if (select_products.length === 0) return "graph TD\n";
-
-  // Collect unique nodes (products) and edges (relationships)
-  let nodes = new Set();
-  let edges = new Set();
-
-  // Add nodes and edges for selected products
-  select_products.forEach(product => {
-    // Add the product itself
-    nodes.add(product);
-
-    // Find related rows
-    let related_rows = metadata_js.filter(row => row.Product_Name === product || row.parent === product || row.child === product);
-
-    related_rows.forEach(row => {
-      if (select_products.includes(row.Product_Name)) {
-        nodes.add(row.Product_Name);
-        if (row.parent && select_products.includes(row.parent)) {
-          nodes.add(row.parent);
-          if (row.direct_parent === true) {
-            edges.add(`${row.parent} --> ${row.Product_Name}`);
-            }
-          if (row.direct_parent === false) {
-            edges.add(`${row.parent} -.-> ${row.Product_Name}`);
-            }
-        }
-        if (row.child && select_products.includes(row.child)) {
-          nodes.add(row.child);
-          if (row.direct_child === true) {
-            edges.add(`${row.Product_Name} --> ${row.child}`);
-            }
-          if (row.direct_child === false) {
-            edges.add(`${row.Product_Name} -.-> ${row.child}`);
-            }
-        }
-      }
-    });
-  });
-
-  // Create the mermaid syntax
-  let mermaidSyntax = "graph TD\n";
-  
-  // Add nodes to the mermaid syntax
-  nodes.forEach(node => {
-    mermaidSyntax += `${node}\n`;
-  });
-
-  // Add edges to the mermaid syntax
-  edges.forEach(edge => {
-    mermaidSyntax += `${edge}\n`;
-  });
-  
-  return mermaidSyntax;
-}
-
-// Generate the mermaid chart based on the selected products
-mermaidChart = generateMermaidChart(select_products, filtered_metadata_js);
-
-```
-
-```{ojs}
-//| echo: false
-
-// Display the mermaid chart
-mermaid`${mermaidChart}`
-
-```
-
-:::
-
-:::{.column-screen-inset}
+:::{.column-screen-inset id="metadata-viewer"}
 
 ```{shinylive-r}
 #| standalone: true
-#| components: [editor, viewer]
-#| viewerHeight: 600
+#| components: [viewer]
+#| viewerHeight: 400
 
 ## file: app.R
 # import docx_to_html function
-{{< include "src/docx_to_html.R" >}}
+{{< include "src/metadata_viewer/docx_to_html.R" >}}
 # import split_values.R
-{{< include "src/split_values.R" >}}
+{{< include "src/metadata_viewer/split_values.R" >}}
  # import server & ui code
-{{< include "src/shinyapp_example.R" >}}
-
-
-
-## file: metadata.csv
-{{< include "metadata.csv" >}}
+{{< include "src/metadata_viewer/app.R" >}}
 
 ```
 :::
