@@ -1,32 +1,32 @@
-Product_ID,Product_Name,Location,Steward,Source,Users,Keywords,PII,Connection
-4047648790,wa_genbank,network_drive,DIQA,genbank,DIQA; MEP,ncbi;results;accessions;virus;refseq;upload,No,data/wa_genbank/wa_genbank_2024-10-21.csv
-5754199350,wa_genbank,network_drive,DIQA,genbank,DIQA; MEP,ncbi;results;accessions;virus;refseq;upload,No,data/wa_genbank/wa_genbank_2024-10-14.csv
-9000442265,wa_genbank,network_drive,DIQA,genbank,DIQA; MEP,ncbi;results;accessions;virus;refseq;upload,No,data/wa_genbank/wa_genbank_2024-10-07.csv
-9325481063,wa_genbank,network_drive,DIQA,genbank,DIQA; MEP,ncbi;results;accessions;virus;refseq;upload,No,data/wa_genbank/wa_genbank_2024-09-30.csv
-6072493491,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-03.csv
-5645041168,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-04.csv
-3344276255,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-05.csv
-2307679692,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-06.csv
-1512337206,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-07.csv
-2824302477,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-10.csv
-3748996607,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-11.csv
-2008766938,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-12.csv
-7300648833,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-13.csv
-3855770051,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-14.csv
-3092745195,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-17.csv
-4520627002,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-18.csv
-3932969825,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-19.csv
-6873647526,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-20.csv
-8109343197,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-21.csv
-9323872357,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-24.csv
-7334703566,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-25.csv
-8858668888,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-26.csv
-7829333381,seq_results,local,PHL,BINFX,PHL,sequencing;results;accessions;variants;lineages,No,data/seq_results/results_with_ncbi_run163.csv
-9936639753,seq_results,local,PHL,BINFX,PHL,sequencing;results;accessions;variants;lineages,No,data/seq_results/results_with_ncbi_run170.csv
-2463472188,seq_results,local,PHL,BINFX,PHL,sequencing;results;accessions;variants;lineages,No,data/seq_results/results_with_ncbi_run172.csv
-8971627055,seq_results,local,PHL,BINFX,PHL,sequencing;results;accessions;variants;lineages,No,data/seq_results/results_with_ncbi_run172b.csv
-7253259313,seq_report,network_drive,MEP,,Public,report:variants;lineages,No,data/seq_report/SequencingReport_2024-01-30.docx
-9715465027,genbank,network_drive,DIQA,NCBI,DIQA,ncbi;genbank;lineages;repository;refseq,No,data/genbank/raw_genbank_2024-09-30.parquet
-8085881829,genbank,network_drive,DIQA,NCBI,DIQA,ncbi;genbank;lineages;repository;refseq,No,data/genbank/raw_genbank_2024-10-07.parquet
-7394149033,genbank,network_drive,DIQA,NCBI,DIQA,ncbi;genbank;lineages;repository;refseq,No,data/genbank/raw_genbank_2024-10-14.parquet
-3590275606,genbank,network_drive,DIQA,NCBI,DIQA,ncbi;genbank;lineages;repository;refseq,No,data/genbank/raw_genbank_2024-10-21.parquet
+Product_ID,Product_Name,Location,Steward,Source,Users,Keywords,PII,Connection,Parent,Child
+4047648790,wa_genbank,network_drive,DIQA,genbank,DIQA; MEP,ncbi;results;accessions;virus;refseq;upload,No,data/wa_genbank/wa_genbank_2024-10-21.csv,genbank,seq_report
+5754199350,wa_genbank,network_drive,DIQA,genbank,DIQA; MEP,ncbi;results;accessions;virus;refseq;upload,No,data/wa_genbank/wa_genbank_2024-10-14.csv,genbank,seq_report
+9000442265,wa_genbank,network_drive,DIQA,genbank,DIQA; MEP,ncbi;results;accessions;virus;refseq;upload,No,data/wa_genbank/wa_genbank_2024-10-07.csv,genbank,seq_report
+9325481063,wa_genbank,network_drive,DIQA,genbank,DIQA; MEP,ncbi;results;accessions;virus;refseq;upload,No,data/wa_genbank/wa_genbank_2024-09-30.csv,genbank,seq_report
+6072493491,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-03.csv,,seq_report
+5645041168,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-04.csv,,seq_report
+3344276255,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-05.csv,,seq_report
+2307679692,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-06.csv,,seq_report
+1512337206,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-07.csv,,seq_report
+2824302477,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-10.csv,,seq_report
+3748996607,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-11.csv,,seq_report
+2008766938,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-12.csv,,seq_report
+7300648833,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-13.csv,,seq_report
+3855770051,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-14.csv,,seq_report
+3092745195,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-17.csv,,seq_report
+4520627002,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-18.csv,,seq_report
+3932969825,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-19.csv,,seq_report
+6873647526,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-20.csv,,seq_report
+8109343197,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-21.csv,,seq_report
+9323872357,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-24.csv,,seq_report
+7334703566,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-25.csv,,seq_report
+8858668888,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-26.csv,,seq_report
+7829333381,seq_results,local,PHL,BINFX,PHL,sequencing;results;accessions;variants;lineages,No,data/seq_results/results_with_ncbi_run163.csv,,seq_report
+9936639753,seq_results,local,PHL,BINFX,PHL,sequencing;results;accessions;variants;lineages,No,data/seq_results/results_with_ncbi_run170.csv,,seq_report
+2463472188,seq_results,local,PHL,BINFX,PHL,sequencing;results;accessions;variants;lineages,No,data/seq_results/results_with_ncbi_run172.csv,,seq_report
+8971627055,seq_results,local,PHL,BINFX,PHL,sequencing;results;accessions;variants;lineages,No,data/seq_results/results_with_ncbi_run172b.csv,,seq_report
+7253259313,seq_report,network_drive,MEP,,Public,report:variants;lineages,No,data/seq_report/SequencingReport_2024-01-30.docx,wa_genbank;lineages;seq_results,
+9715465027,genbank,network_drive,DIQA,NCBI,DIQA,ncbi;genbank;lineages;repository;refseq,No,data/genbank/raw_genbank_2024-09-30.parquet,,wa_genbank
+8085881829,genbank,network_drive,DIQA,NCBI,DIQA,ncbi;genbank;lineages;repository;refseq,No,data/genbank/raw_genbank_2024-10-07.parquet,,wa_genbank
+7394149033,genbank,network_drive,DIQA,NCBI,DIQA,ncbi;genbank;lineages;repository;refseq,No,data/genbank/raw_genbank_2024-10-14.parquet,,wa_genbank
+3590275606,genbank,network_drive,DIQA,NCBI,DIQA,ncbi;genbank;lineages;repository;refseq,No,data/genbank/raw_genbank_2024-10-21.parquet,,wa_genbank

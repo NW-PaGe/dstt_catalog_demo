@@ -24,11 +24,10 @@ Data Catalog
 
 </h1>
 
-This is a static website and demo of a data catalog. Search for data objects in the dashboard below.
+This is a static website and demo of a data catalog. Search for data objects in the metadata viewer, or visualize data product relationships in the Directed Acyclic Graph (DAG) below.
 
-<a href="#shinyapp" class="button">dashboard</a>
+<a href="#dag" class="button">dag</a> <a href="#metadata-viewer" class="button">metadata viewer</a>
 
-<!-- {{< bi github size=2em href="https://github.com/NW-PaGe/standards" >}} -->
 :::
 
 ::: image
@@ -39,8 +38,7 @@ This is a static website and demo of a data catalog. Search for data objects in 
 
 :::: {.splash-page}
 
-
-:::{.column-screen-inset}
+:::{.column-screen-inset id="dag"}
 
 ```{shinylive-r}
 #| standalone: true
@@ -53,25 +51,20 @@ This is a static website and demo of a data catalog. Search for data objects in 
 ```
 :::
 
-:::{.column-screen-inset}
+:::{.column-screen-inset id="metadata-viewer"}
 
 ```{shinylive-r}
 #| standalone: true
-#| components: [editor, viewer]
-#| viewerHeight: 600
+#| components: [viewer]
+#| viewerHeight: 400
 
 ## file: app.R
 # import docx_to_html function
-{{< include "src/docx_to_html.R" >}}
+{{< include "src/metadata_viewer/docx_to_html.R" >}}
 # import split_values.R
-{{< include "src/split_values.R" >}}
+{{< include "src/metadata_viewer/split_values.R" >}}
  # import server & ui code
-{{< include "src/shinyapp_example.R" >}}
-
-
-
-## file: metadata.csv
-{{< include "metadata.csv" >}}
+{{< include "src/metadata_viewer/app.R" >}}
 
 ```
 :::
