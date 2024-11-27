@@ -897,17 +897,6 @@
       ],
       "Hash": "2c797b46eea7fb58ede195bc0b1f1138"
     },
-    "nvimcom": {
-      "Package": "nvimcom",
-      "Version": "0.9-165",
-      "Source": "unknown",
-      "Requirements": [
-        "R",
-        "methods",
-        "tools"
-      ],
-      "Hash": "fcc7eb0c4a3b6703738c79a895968106"
-    },
     "officer": {
       "Package": "officer",
       "Version": "0.6.7",
