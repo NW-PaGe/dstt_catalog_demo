@@ -7,7 +7,7 @@ name: Quarto Publish
   
 jobs:   
     build-deploy:
-      runs-on: ubuntu-latest
+      runs-on: windows-latest
       permissions:
         contents: write
       steps:
@@ -21,19 +21,6 @@ jobs:
           uses: r-lib/actions/setup-r@v2
           with:
             r-version: '4.4.1'
-
-        - name: Install additional R dependencies
-          run: |
-            Rscript -e "
-            # install.packages('renv');
-            # renv::restore();
-            install.packages('httpuv');
-            install.packages('later')
-            "
-          # 6. Optional: Install system dependencies (if needed for certain packages)
-        - name: Install system dependencies
-          run: |
-            sudo apt-get install -y libcurl4-openssl-dev libssl-dev
   
         - name: Install R Dependencies
           uses: r-lib/actions/setup-renv@v2
