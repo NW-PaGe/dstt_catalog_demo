@@ -78,7 +78,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-contrib/shinylive-0.5.0/shinylive/run-python-blocks.js" type="module"></script>
 <link href="site_libs/quarto-contrib/shinylive-0.5.0/shinylive/shinylive.css" rel="stylesheet">
 <link href="site_libs/quarto-contrib/shinylive-quarto-css/shinylive-quarto.css" rel="stylesheet">
-<link href="site_libs/quarto-contrib/bootstrap-icons-1.11.1/all.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -108,18 +107,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 <script type="module" src="site_libs/quarto-ojs/quarto-ojs-runtime.js"></script>
 <link href="site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
-<script type="ojs-define">
-
-{"contents":[{"name":"metadata_json","value":"[\n  {\n    \"Product_Name\": \"wa_genbank\",\n    \"parent\": \"theiacov_output\",\n    \"child\": \"cov_sequencing_report\",\n    \"direct_parent\": true,\n    \"direct_child\": true\n  },\n  {\n    \"Product_Name\": \"wa_genbank\",\n    \"parent\": \"starlims\",\n    \"child\": \"cov_sequencing_report\",\n    \"direct_parent\": true,\n    \"direct_child\": true\n  },\n  {\n    \"Product_Name\": \"lineages\",\n    \"child\": \"cov_sequencing_report\",\n    \"direct_child\": true\n  },\n  {\n    \"Product_Name\": \"theiacov_output\",\n    \"child\": \"wa_genbank\",\n    \"direct_child\": true\n  },\n  {\n    \"Product_Name\": \"theiacov_output\",\n    \"child\": \"lineages\",\n    \"direct_child\": true\n  },\n  {\n    \"Product_Name\": \"cov_sequencing_report\",\n    \"parent\": \"lineages\",\n    \"direct_parent\": true\n  },\n  {\n    \"Product_Name\": \"cov_sequencing_report\",\n    \"parent\": \"wa_genbank\",\n    \"direct_parent\": true\n  },\n  {\n    \"Product_Name\": \"starlims\",\n    \"child\": \"wa_genbank\",\n    \"direct_child\": true\n  }\n]"}]}
-
-</script>
-
-<script type="ojs-define">
-
-{"contents":[{"name":"products","value":["wa_genbank","lineages","theiacov_output","cov_sequencing_report","starlims"]}]}
-
-</script>
-
 
 
 </head>
@@ -190,181 +177,172 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="container">
 <div class="content">
 
-<p>This is a static website and demo of a data catalog. Search for data objects in the dashboard below.</p>
-<p><a href="#shinyapp" class="button">dashboard</a></p>
-<!--  -->
+<p>This is a static website and demo of a data catalog. Search for data objects in the metadata viewer, or visualize data product relationships in the directed acyclic graph (DAG) below.</p>
+<div>
+<p><a id="dag_button" class="button">dag</a> <a id="mv_button" class="button">metdata viewer</a></p>
+</div>
+<div class="cell hidden">
+<div class="sourceCode cell-code hidden" id="cb1" data-startfrom="41" data-source-offset="-149"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 40;"><span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">"dag_button"</span>)<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">"click"</span><span class="op">,</span> <span class="kw">function</span>() {</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Access the iframe containing the ShinyLive app</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> iframe <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">querySelector</span>(<span class="st">"iframe"</span>)<span class="op">;</span> </span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (iframe) {</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Use iframe's contentWindow to access the Shiny app's DOM</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> iframeDocument <span class="op">=</span> iframe<span class="op">.</span><span class="at">contentWindow</span><span class="op">.</span><span class="at">document</span><span class="op">;</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Use scrollIntoView on the desired section inside the iframe</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> section <span class="op">=</span> iframeDocument<span class="op">.</span><span class="fu">getElementById</span>(<span class="st">"dag-br"</span>)<span class="op">;</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (section) {</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>      section<span class="op">.</span><span class="fu">scrollIntoView</span>({<span class="dt">behavior</span><span class="op">:</span> <span class="st">"smooth"</span>})<span class="op">;</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display hidden">
+<div>
+<div id="ojs-cell-1-1" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+<div class="sourceCode cell-code hidden" id="cb2" data-startfrom="55" data-source-offset="-690"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 54;"><span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a><span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">"mv_button"</span>)<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">"click"</span><span class="op">,</span> <span class="kw">function</span>() {</span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Access the iframe containing the ShinyLive app</span></span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> iframe <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">querySelector</span>(<span class="st">"iframe"</span>)<span class="op">;</span> </span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (iframe) {</span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Use iframe's contentWindow to access the Shiny app's DOM</span></span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> iframeDocument <span class="op">=</span> iframe<span class="op">.</span><span class="at">contentWindow</span><span class="op">.</span><span class="at">document</span><span class="op">;</span></span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Use scrollIntoView on the desired section inside the iframe</span></span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> section <span class="op">=</span> iframeDocument<span class="op">.</span><span class="fu">getElementById</span>(<span class="st">"metadata-viewer-br"</span>)<span class="op">;</span></span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (section) {</span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>      section<span class="op">.</span><span class="fu">scrollIntoView</span>({<span class="dt">behavior</span><span class="op">:</span> <span class="st">"smooth"</span>})<span class="op">;</span></span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display hidden">
+<div>
+<div id="ojs-cell-1-2" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+</div>
 </div>
 <div class="image">
 <p><img src="assets/nwpage_tree_logo.png" class="img-fluid" width="250"></p>
 </div>
 </div>
-<div class="splash-page page-columns page-full">
-<div class="column-screen-inset">
-<div class="column">
-<div class="cell">
-<div class="sourceCode cell-code hidden" id="cb1" data-startfrom="101" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 100;"><span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a><span class="co">// Create a checkbox input for selecting products</span></span>
-<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a>viewof select_products <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">checkbox</span>(products<span class="op">,</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Select products:"</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> products})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div id="ojs-cell-1" data-nodetype="declaration">
-
-</div>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code hidden" id="cb2" data-startfrom="112" data-source-offset="-63"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 111;"><span id="cb2-112"><a href="#cb2-112" aria-hidden="true" tabindex="-1"></a>metadata_js <span class="op">=</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">parse</span>(metadata_json)</span>
-<span id="cb2-113"><a href="#cb2-113" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-114"><a href="#cb2-114" aria-hidden="true" tabindex="-1"></a><span class="co">// Function to update parent and child values with intermediate values</span></span>
-<span id="cb2-115"><a href="#cb2-115" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">updateMetadataWithIntermediates</span>(metadata_js<span class="op">,</span> select_products) {</span>
-<span id="cb2-116"><a href="#cb2-116" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Convert select_products to a Set for faster lookup</span></span>
-<span id="cb2-117"><a href="#cb2-117" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> selectedSet <span class="op">=</span> <span class="kw">new</span> <span class="bu">Set</span>(select_products)<span class="op">;</span></span>
-<span id="cb2-118"><a href="#cb2-118" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-119"><a href="#cb2-119" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Create a map to look up intermediate values</span></span>
-<span id="cb2-120"><a href="#cb2-120" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> productMap <span class="op">=</span> <span class="kw">new</span> <span class="bu">Map</span>(metadata_js<span class="op">.</span><span class="fu">map</span>(row <span class="kw">=&gt;</span> [row<span class="op">.</span><span class="at">Product_Name</span><span class="op">,</span> row]))<span class="op">;</span></span>
-<span id="cb2-121"><a href="#cb2-121" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-122"><a href="#cb2-122" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> metadata_js<span class="op">.</span><span class="fu">map</span>(row <span class="kw">=&gt;</span> {</span>
-<span id="cb2-123"><a href="#cb2-123" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> updatedRow <span class="op">=</span> {<span class="op">...</span>row}<span class="op">;</span> <span class="co">// Copy the row to avoid mutating the original</span></span>
-<span id="cb2-124"><a href="#cb2-124" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="op">!</span>selectedSet<span class="op">.</span><span class="fu">has</span>(row<span class="op">.</span><span class="at">Product_Name</span>)) {</span>
-<span id="cb2-125"><a href="#cb2-125" aria-hidden="true" tabindex="-1"></a>      <span class="co">// If the product itself is not selected, exclude it from the results</span></span>
-<span id="cb2-126"><a href="#cb2-126" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> <span class="kw">null</span><span class="op">;</span></span>
-<span id="cb2-127"><a href="#cb2-127" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb2-128"><a href="#cb2-128" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Update parent if it's not selected</span></span>
-<span id="cb2-129"><a href="#cb2-129" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (row<span class="op">.</span><span class="at">parent</span> <span class="op">&amp;&amp;</span> <span class="op">!</span>selectedSet<span class="op">.</span><span class="fu">has</span>(row<span class="op">.</span><span class="at">parent</span>)) {</span>
-<span id="cb2-130"><a href="#cb2-130" aria-hidden="true" tabindex="-1"></a>      <span class="co">// Look for the intermediate product to use its parent</span></span>
-<span id="cb2-131"><a href="#cb2-131" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> intermediateProduct <span class="op">=</span> metadata_js<span class="op">.</span><span class="fu">find</span>(r <span class="kw">=&gt;</span> r<span class="op">.</span><span class="at">child</span> <span class="op">===</span> row<span class="op">.</span><span class="at">Product_Name</span> <span class="op">&amp;&amp;</span> selectedSet<span class="op">.</span><span class="fu">has</span>(r<span class="op">.</span><span class="at">parent</span>))<span class="op">;</span></span>
-<span id="cb2-132"><a href="#cb2-132" aria-hidden="true" tabindex="-1"></a>      updatedRow<span class="op">.</span><span class="at">parent</span> <span class="op">=</span> intermediateProduct <span class="op">?</span> intermediateProduct<span class="op">.</span><span class="at">parent</span> <span class="op">:</span> <span class="kw">null</span><span class="op">;</span></span>
-<span id="cb2-133"><a href="#cb2-133" aria-hidden="true" tabindex="-1"></a>      <span class="co">// Update direct_parent to show indirect linkage</span></span>
-<span id="cb2-134"><a href="#cb2-134" aria-hidden="true" tabindex="-1"></a>      updatedRow<span class="op">.</span><span class="at">direct_parent</span> <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
-<span id="cb2-135"><a href="#cb2-135" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb2-136"><a href="#cb2-136" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Update child if it's not selected</span></span>
-<span id="cb2-137"><a href="#cb2-137" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (row<span class="op">.</span><span class="at">child</span> <span class="op">&amp;&amp;</span> <span class="op">!</span>selectedSet<span class="op">.</span><span class="fu">has</span>(row<span class="op">.</span><span class="at">child</span>)) {</span>
-<span id="cb2-138"><a href="#cb2-138" aria-hidden="true" tabindex="-1"></a>      <span class="co">// Look for the intermediate product to use its child</span></span>
-<span id="cb2-139"><a href="#cb2-139" aria-hidden="true" tabindex="-1"></a>      <span class="kw">const</span> intermediateProduct <span class="op">=</span> metadata_js<span class="op">.</span><span class="fu">find</span>(r <span class="kw">=&gt;</span> r<span class="op">.</span><span class="at">parent</span> <span class="op">===</span> row<span class="op">.</span><span class="at">Product_Name</span> <span class="op">&amp;&amp;</span> selectedSet<span class="op">.</span><span class="fu">has</span>(r<span class="op">.</span><span class="at">child</span>))<span class="op">;</span></span>
-<span id="cb2-140"><a href="#cb2-140" aria-hidden="true" tabindex="-1"></a>      updatedRow<span class="op">.</span><span class="at">child</span> <span class="op">=</span> intermediateProduct <span class="op">?</span> intermediateProduct<span class="op">.</span><span class="at">child</span> <span class="op">:</span> <span class="kw">null</span><span class="op">;</span></span>
-<span id="cb2-141"><a href="#cb2-141" aria-hidden="true" tabindex="-1"></a>      <span class="co">// Update direct_child to show indirect linkage</span></span>
-<span id="cb2-142"><a href="#cb2-142" aria-hidden="true" tabindex="-1"></a>      updatedRow<span class="op">.</span><span class="at">direct_child</span> <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
-<span id="cb2-143"><a href="#cb2-143" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb2-144"><a href="#cb2-144" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> updatedRow<span class="op">;</span></span>
-<span id="cb2-145"><a href="#cb2-145" aria-hidden="true" tabindex="-1"></a>  })<span class="op">.</span><span class="fu">filter</span>(row <span class="kw">=&gt;</span> row <span class="op">!==</span> <span class="kw">null</span>)<span class="op">;</span> <span class="co">// Remove rows that were excluded</span></span>
-<span id="cb2-146"><a href="#cb2-146" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb2-147"><a href="#cb2-147" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-148"><a href="#cb2-148" aria-hidden="true" tabindex="-1"></a><span class="co">// Apply the update function</span></span>
-<span id="cb2-149"><a href="#cb2-149" aria-hidden="true" tabindex="-1"></a>filtered_metadata_js <span class="op">=</span> <span class="fu">updateMetadataWithIntermediates</span>(metadata_js<span class="op">,</span> select_products)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<div id="ojs-cell-2-1" data-nodetype="declaration">
-
-</div>
-</div>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<div id="ojs-cell-2-2" data-nodetype="declaration">
-
-</div>
-</div>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<div id="ojs-cell-2-3" data-nodetype="declaration">
-
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code hidden" id="cb3" data-startfrom="159" data-source-offset="-67"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 158;"><span id="cb3-159"><a href="#cb3-159" aria-hidden="true" tabindex="-1"></a>generateMermaidChart <span class="op">=</span> (select_products<span class="op">,</span> metadata_js) <span class="kw">=&gt;</span> {</span>
-<span id="cb3-160"><a href="#cb3-160" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Ensure select_products is an array</span></span>
-<span id="cb3-161"><a href="#cb3-161" aria-hidden="true" tabindex="-1"></a>  select_products <span class="op">=</span> <span class="bu">Array</span><span class="op">.</span><span class="fu">isArray</span>(select_products) <span class="op">?</span> select_products <span class="op">:</span> []<span class="op">;</span></span>
-<span id="cb3-162"><a href="#cb3-162" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb3-163"><a href="#cb3-163" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (select_products<span class="op">.</span><span class="at">length</span> <span class="op">===</span> <span class="dv">0</span>) <span class="cf">return</span> <span class="st">"graph TD</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb3-164"><a href="#cb3-164" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-165"><a href="#cb3-165" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Collect unique nodes (products) and edges (relationships)</span></span>
-<span id="cb3-166"><a href="#cb3-166" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> nodes <span class="op">=</span> <span class="kw">new</span> <span class="bu">Set</span>()<span class="op">;</span></span>
-<span id="cb3-167"><a href="#cb3-167" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> edges <span class="op">=</span> <span class="kw">new</span> <span class="bu">Set</span>()<span class="op">;</span></span>
-<span id="cb3-168"><a href="#cb3-168" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-169"><a href="#cb3-169" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Add nodes and edges for selected products</span></span>
-<span id="cb3-170"><a href="#cb3-170" aria-hidden="true" tabindex="-1"></a>  select_products<span class="op">.</span><span class="fu">forEach</span>(product <span class="kw">=&gt;</span> {</span>
-<span id="cb3-171"><a href="#cb3-171" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Add the product itself</span></span>
-<span id="cb3-172"><a href="#cb3-172" aria-hidden="true" tabindex="-1"></a>    nodes<span class="op">.</span><span class="fu">add</span>(product)<span class="op">;</span></span>
-<span id="cb3-173"><a href="#cb3-173" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-174"><a href="#cb3-174" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Find related rows</span></span>
-<span id="cb3-175"><a href="#cb3-175" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> related_rows <span class="op">=</span> metadata_js<span class="op">.</span><span class="fu">filter</span>(row <span class="kw">=&gt;</span> row<span class="op">.</span><span class="at">Product_Name</span> <span class="op">===</span> product <span class="op">||</span> row<span class="op">.</span><span class="at">parent</span> <span class="op">===</span> product <span class="op">||</span> row<span class="op">.</span><span class="at">child</span> <span class="op">===</span> product)<span class="op">;</span></span>
-<span id="cb3-176"><a href="#cb3-176" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-177"><a href="#cb3-177" aria-hidden="true" tabindex="-1"></a>    related_rows<span class="op">.</span><span class="fu">forEach</span>(row <span class="kw">=&gt;</span> {</span>
-<span id="cb3-178"><a href="#cb3-178" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (select_products<span class="op">.</span><span class="fu">includes</span>(row<span class="op">.</span><span class="at">Product_Name</span>)) {</span>
-<span id="cb3-179"><a href="#cb3-179" aria-hidden="true" tabindex="-1"></a>        nodes<span class="op">.</span><span class="fu">add</span>(row<span class="op">.</span><span class="at">Product_Name</span>)<span class="op">;</span></span>
-<span id="cb3-180"><a href="#cb3-180" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (row<span class="op">.</span><span class="at">parent</span> <span class="op">&amp;&amp;</span> select_products<span class="op">.</span><span class="fu">includes</span>(row<span class="op">.</span><span class="at">parent</span>)) {</span>
-<span id="cb3-181"><a href="#cb3-181" aria-hidden="true" tabindex="-1"></a>          nodes<span class="op">.</span><span class="fu">add</span>(row<span class="op">.</span><span class="at">parent</span>)<span class="op">;</span></span>
-<span id="cb3-182"><a href="#cb3-182" aria-hidden="true" tabindex="-1"></a>          <span class="cf">if</span> (row<span class="op">.</span><span class="at">direct_parent</span> <span class="op">===</span> <span class="kw">true</span>) {</span>
-<span id="cb3-183"><a href="#cb3-183" aria-hidden="true" tabindex="-1"></a>            edges<span class="op">.</span><span class="fu">add</span>(<span class="vs">`</span><span class="sc">${</span>row<span class="op">.</span><span class="at">parent</span><span class="sc">}</span><span class="vs"> --&gt; </span><span class="sc">${</span>row<span class="op">.</span><span class="at">Product_Name</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
-<span id="cb3-184"><a href="#cb3-184" aria-hidden="true" tabindex="-1"></a>            }</span>
-<span id="cb3-185"><a href="#cb3-185" aria-hidden="true" tabindex="-1"></a>          <span class="cf">if</span> (row<span class="op">.</span><span class="at">direct_parent</span> <span class="op">===</span> <span class="kw">false</span>) {</span>
-<span id="cb3-186"><a href="#cb3-186" aria-hidden="true" tabindex="-1"></a>            edges<span class="op">.</span><span class="fu">add</span>(<span class="vs">`</span><span class="sc">${</span>row<span class="op">.</span><span class="at">parent</span><span class="sc">}</span><span class="vs"> -.-&gt; </span><span class="sc">${</span>row<span class="op">.</span><span class="at">Product_Name</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
-<span id="cb3-187"><a href="#cb3-187" aria-hidden="true" tabindex="-1"></a>            }</span>
-<span id="cb3-188"><a href="#cb3-188" aria-hidden="true" tabindex="-1"></a>        }</span>
-<span id="cb3-189"><a href="#cb3-189" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (row<span class="op">.</span><span class="at">child</span> <span class="op">&amp;&amp;</span> select_products<span class="op">.</span><span class="fu">includes</span>(row<span class="op">.</span><span class="at">child</span>)) {</span>
-<span id="cb3-190"><a href="#cb3-190" aria-hidden="true" tabindex="-1"></a>          nodes<span class="op">.</span><span class="fu">add</span>(row<span class="op">.</span><span class="at">child</span>)<span class="op">;</span></span>
-<span id="cb3-191"><a href="#cb3-191" aria-hidden="true" tabindex="-1"></a>          <span class="cf">if</span> (row<span class="op">.</span><span class="at">direct_child</span> <span class="op">===</span> <span class="kw">true</span>) {</span>
-<span id="cb3-192"><a href="#cb3-192" aria-hidden="true" tabindex="-1"></a>            edges<span class="op">.</span><span class="fu">add</span>(<span class="vs">`</span><span class="sc">${</span>row<span class="op">.</span><span class="at">Product_Name</span><span class="sc">}</span><span class="vs"> --&gt; </span><span class="sc">${</span>row<span class="op">.</span><span class="at">child</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
-<span id="cb3-193"><a href="#cb3-193" aria-hidden="true" tabindex="-1"></a>            }</span>
-<span id="cb3-194"><a href="#cb3-194" aria-hidden="true" tabindex="-1"></a>          <span class="cf">if</span> (row<span class="op">.</span><span class="at">direct_child</span> <span class="op">===</span> <span class="kw">false</span>) {</span>
-<span id="cb3-195"><a href="#cb3-195" aria-hidden="true" tabindex="-1"></a>            edges<span class="op">.</span><span class="fu">add</span>(<span class="vs">`</span><span class="sc">${</span>row<span class="op">.</span><span class="at">Product_Name</span><span class="sc">}</span><span class="vs"> -.-&gt; </span><span class="sc">${</span>row<span class="op">.</span><span class="at">child</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
-<span id="cb3-196"><a href="#cb3-196" aria-hidden="true" tabindex="-1"></a>            }</span>
-<span id="cb3-197"><a href="#cb3-197" aria-hidden="true" tabindex="-1"></a>        }</span>
-<span id="cb3-198"><a href="#cb3-198" aria-hidden="true" tabindex="-1"></a>      }</span>
-<span id="cb3-199"><a href="#cb3-199" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
-<span id="cb3-200"><a href="#cb3-200" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
-<span id="cb3-201"><a href="#cb3-201" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-202"><a href="#cb3-202" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Create the mermaid syntax</span></span>
-<span id="cb3-203"><a href="#cb3-203" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> mermaidSyntax <span class="op">=</span> <span class="st">"graph TD</span><span class="sc">\n</span><span class="st">"</span><span class="op">;</span></span>
-<span id="cb3-204"><a href="#cb3-204" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb3-205"><a href="#cb3-205" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Add nodes to the mermaid syntax</span></span>
-<span id="cb3-206"><a href="#cb3-206" aria-hidden="true" tabindex="-1"></a>  nodes<span class="op">.</span><span class="fu">forEach</span>(node <span class="kw">=&gt;</span> {</span>
-<span id="cb3-207"><a href="#cb3-207" aria-hidden="true" tabindex="-1"></a>    mermaidSyntax <span class="op">+=</span> <span class="vs">`</span><span class="sc">${</span>node<span class="sc">}\n</span><span class="vs">`</span><span class="op">;</span></span>
-<span id="cb3-208"><a href="#cb3-208" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
-<span id="cb3-209"><a href="#cb3-209" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-210"><a href="#cb3-210" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Add edges to the mermaid syntax</span></span>
-<span id="cb3-211"><a href="#cb3-211" aria-hidden="true" tabindex="-1"></a>  edges<span class="op">.</span><span class="fu">forEach</span>(edge <span class="kw">=&gt;</span> {</span>
-<span id="cb3-212"><a href="#cb3-212" aria-hidden="true" tabindex="-1"></a>    mermaidSyntax <span class="op">+=</span> <span class="vs">`</span><span class="sc">${</span>edge<span class="sc">}\n</span><span class="vs">`</span><span class="op">;</span></span>
-<span id="cb3-213"><a href="#cb3-213" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
-<span id="cb3-214"><a href="#cb3-214" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb3-215"><a href="#cb3-215" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> mermaidSyntax<span class="op">;</span></span>
-<span id="cb3-216"><a href="#cb3-216" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb3-217"><a href="#cb3-217" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-218"><a href="#cb3-218" aria-hidden="true" tabindex="-1"></a><span class="co">// Generate the mermaid chart based on the selected products</span></span>
-<span id="cb3-219"><a href="#cb3-219" aria-hidden="true" tabindex="-1"></a>mermaidChart <span class="op">=</span> <span class="fu">generateMermaidChart</span>(select_products<span class="op">,</span> filtered_metadata_js)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<div id="ojs-cell-3-1" data-nodetype="declaration">
-
-</div>
-</div>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<div id="ojs-cell-3-2" data-nodetype="declaration">
-
-</div>
-</div>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code hidden" id="cb4" data-startfrom="224" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 223;"><span id="cb4-224"><a href="#cb4-224" aria-hidden="true" tabindex="-1"></a><span class="co">// Display the mermaid chart</span></span>
-<span id="cb4-225"><a href="#cb4-225" aria-hidden="true" tabindex="-1"></a><span class="fu">mermaid</span><span class="vs">`</span><span class="sc">${</span>mermaidChart<span class="sc">}</span><span class="vs">`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div id="ojs-cell-4" data-nodetype="expression">
-
-</div>
-</div>
-</div>
-</div>
 <div class="column-screen-inset">
 <pre class="shinylive-r" data-engine="r"><code>#| standalone: true
-#| components: [editor, viewer]
-#| viewerHeight: 600
+#| #components: [editor, viewer]
+#| viewerHeight: 1000
+#| column: page
+
 
 ## file: app.R
+# import dag
+library(shiny)
+library(DiagrammeR)
+library(dplyr)
+library(tidyr)
+
+# Read the CSV file when the script starts
+metadata &lt;- read.csv(url("https://raw.githubusercontent.com/NW-PaGe/dstt_catalog_demo/refs/heads/main/metadata.csv")) %&gt;%
+  mutate(across(where(is.character), function(.) ifelse(. == '', NA_character_, .)))
+
+# Define UI for the app
+dag_ui &lt;- fluidPage(
+  sidebarLayout(
+    sidebarPanel(
+      h4("Select nodes"),
+      checkboxGroupInput("selected_nodes", "Nodes", choices = unique(metadata$Product_Name), selected = unique(metadata$Product_Name)),
+      hr()
+    ),
+    
+    mainPanel(
+      grVizOutput("dag_plot", width = "100%", height = "600px")
+    )
+  )
+)
+
+# Define server logic for the app
+dag_server &lt;- function(input, output, session) {
+  
+  # Create a reactive DAG from selected nodes
+  reactive_dag &lt;- reactive({
+    ### Create nodes based on inclusion in selected input
+    nodes_final &lt;- metadata %&gt;% 
+      filter(Product_Name %in% input$selected_nodes) %&gt;%
+      select(Product_Name) %&gt;% 
+      mutate(Product_Name_Copy = Product_Name) %&gt;% 
+      distinct()
+    
+    ### Create edges based on `Parent` and `Child` columns ----------------
+    
+    # unnest any nodes with 2+ parents or children
+    unnested_data &lt;- metadata %&gt;% 
+      select(Product_Name, Parent, Child) %&gt;% 
+      mutate(Product_Name_Copy = Product_Name) %&gt;% 
+      tidyr::separate_rows(Parent, sep = ";") %&gt;% 
+      tidyr::separate_rows(Child, sep = ";") %&gt;% 
+      distinct()
+    
+    # identify all possible parents
+    parent_df &lt;- unnested_data %&gt;% 
+      filter(!is.na(Parent)) %&gt;% 
+      mutate(Child = Product_Name)
+
+    # identify all possible children
+    child_df &lt;- unnested_data %&gt;% 
+      filter(!is.na(Child)) %&gt;% 
+      mutate(Parent = Product_Name)
+    
+    # join parents and children to get all possible edges
+    edges &lt;- rbind(parent_df, child_df) %&gt;% 
+      select(Parent, Child) %&gt;% 
+      distinct()
+    
+    # get direct edges (edges where no product has been deselected)
+    direct_edges &lt;- edges %&gt;% 
+      filter(Parent %in% input$selected_nodes &amp; Child %in% input$selected_nodes) %&gt;% 
+      mutate(style = 'solid') # set edge attribute so line will be solid
+    
+    # get indirect edges (edges where child or parent has been deselected)
+    indirect_parent &lt;- edges %&gt;% 
+      filter(!Parent %in% input$selected_nodes) %&gt;% 
+      rename(removed=Parent)
+    indirect_child &lt;- edges %&gt;% 
+      filter(!Child %in% input$selected_nodes) %&gt;% 
+      rename(removed=Child)
+    indirect_edges &lt;- indirect_parent %&gt;% 
+      left_join(indirect_child, by='removed') %&gt;% 
+      select(-removed) %&gt;% 
+      mutate(style = 'dashed') # set edge attribute so line will be dashed
+    
+    # concat dfs for final edges df with direct/indirect relationships included
+    edges_final &lt;- rbind(indirect_edges, direct_edges)
+    
+    ### Create the DAG using DiagrammeR ------------------------------------------
+    dag &lt;- create_graph() %&gt;%
+      add_nodes_from_table(table = nodes_final,
+                           label_col = "Product_Name") %&gt;%
+      add_edges_from_table(table = edges_final,
+                           from_col = "Parent",
+                           to_col = "Child",
+                           from_to_map = "Product_Name_Copy")
+
+    return(dag)
+  })
+  
+  observe({
+    # Render the DAG plot
+    output$dag_plot &lt;- renderGrViz({
+      dag &lt;- reactive_dag()
+      dag %&gt;% render_graph()
+    })  
+  })
+  
+}
+
+# # render shinyapp
+# shinyApp(ui=dag_ui, server=dag_server)
+
 # import docx_to_html function
 docx_to_html &lt;- function(doc) {
   #' Convert docx to html 
@@ -476,10 +454,11 @@ library(duckdb)
 library(jsonlite)
 
 # Read the CSV file when the script starts
-metadata &lt;- read.csv(url("https://raw.githubusercontent.com/NW-PaGe/dstt_catalog_demo/refs/heads/main/metadata.csv"))
+metadata &lt;- read.csv(url("https://raw.githubusercontent.com/NW-PaGe/dstt_catalog_demo/refs/heads/main/metadata.csv")) %&gt;%
+  mutate(across(where(is.character), function(.) ifelse(. == '', NA_character_, .)))
 
 # Define the UI
-ui &lt;- fluidPage(
+metadata_ui &lt;- fluidPage(
   # Add custom CSS
   tags$head(
     tags$style(HTML("
@@ -586,7 +565,6 @@ ui &lt;- fluidPage(
       }
     "))
   ),
-  titlePanel("Filtered Metadata Viewer"),
   sidebarLayout(
     sidebarPanel(
       # Static text inputs for certain columns
@@ -620,7 +598,7 @@ ui &lt;- fluidPage(
 )
 
 # Define the server logic
-server &lt;- function(input, output, session) {
+metadata_server &lt;- function(input, output, session) {
   observe({
     output$fileList &lt;- renderUI({
       file_paths &lt;- filteredData()$Connection
@@ -836,55 +814,52 @@ server &lt;- function(input, output, session) {
   })
 }
 
-# Run the application 
-shinyApp(ui = ui, server = server)
+# # Run the application 
+# shinyApp(ui=metadata_ui, server=metadata_server)
 
 
+# Create main ui
+ui &lt;- fluidPage(
+  tags$style(
+    HTML("
+          h1.title {
+            text-align: center;
+            font-weight: bold;
+          }
+          hr.div {
+            width: 100%;
+            border: 5px dotted #000000;
+            border-style: none none dotted;
+          }
+         ")
+  ),
+  tags$br(id='dag-br'),
+  h1(id='dag', class='title', 'Directed Acyclic Graph (DAG):'),
+  tags$br(),
+  tags$br(),
+  fluidRow(column(12, dag_ui)), # insert dag ui
+  tags$hr(class='div'),
+  tags$br(id='metadata-viewer-br'),
+  h1(id='metadata-viewer', class='title', 'Metadata Viewer:'),
+  tags$br(),
+  tags$br(),
+  fluidRow(column(12, metadata_ui)) # insert metadata ui 
+)
 
+# create main app
+server &lt;- function(input, output, session) {
+  dag_server(input, output, session) # insert dag server logic
+  metadata_server(input, output, session) # insert metadata server logic
+}
 
-## file: metadata.csv
-Product_ID,Product_Name,Location,Steward,Source,Users,Keywords,PII,Connection,Parent,Child
-4047648790,wa_genbank,network_drive,DIQA,genbank,DIQA; MEP,ncbi;results;accessions;virus;refseq;upload,No,data/wa_genbank/wa_genbank_2024-10-21.csv,genbank,seq_report
-5754199350,wa_genbank,network_drive,DIQA,genbank,DIQA; MEP,ncbi;results;accessions;virus;refseq;upload,No,data/wa_genbank/wa_genbank_2024-10-14.csv,genbank,seq_report
-9000442265,wa_genbank,network_drive,DIQA,genbank,DIQA; MEP,ncbi;results;accessions;virus;refseq;upload,No,data/wa_genbank/wa_genbank_2024-10-07.csv,genbank,seq_report
-9325481063,wa_genbank,network_drive,DIQA,genbank,DIQA; MEP,ncbi;results;accessions;virus;refseq;upload,No,data/wa_genbank/wa_genbank_2024-09-30.csv,genbank,seq_report
-6072493491,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-03.csv,,seq_report
-5645041168,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-04.csv,,seq_report
-3344276255,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-05.csv,,seq_report
-2307679692,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-06.csv,,seq_report
-1512337206,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-07.csv,,seq_report
-2824302477,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-10.csv,,seq_report
-3748996607,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-11.csv,,seq_report
-2008766938,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-12.csv,,seq_report
-7300648833,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-13.csv,,seq_report
-3855770051,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-14.csv,,seq_report
-3092745195,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-17.csv,,seq_report
-4520627002,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-18.csv,,seq_report
-3932969825,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-19.csv,,seq_report
-6873647526,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-20.csv,,seq_report
-8109343197,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-21.csv,,seq_report
-9323872357,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-24.csv,,seq_report
-7334703566,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-25.csv,,seq_report
-8858668888,lineages,network_drive,DIQA,CDC,MEP,variant,No,data/lineages/Lineages_2024-06-26.csv,,seq_report
-7829333381,seq_results,local,PHL,BINFX,PHL,sequencing;results;accessions;variants;lineages,No,data/seq_results/results_with_ncbi_run163.csv,,seq_report
-9936639753,seq_results,local,PHL,BINFX,PHL,sequencing;results;accessions;variants;lineages,No,data/seq_results/results_with_ncbi_run170.csv,,seq_report
-2463472188,seq_results,local,PHL,BINFX,PHL,sequencing;results;accessions;variants;lineages,No,data/seq_results/results_with_ncbi_run172.csv,,seq_report
-8971627055,seq_results,local,PHL,BINFX,PHL,sequencing;results;accessions;variants;lineages,No,data/seq_results/results_with_ncbi_run172b.csv,,seq_report
-7253259313,seq_report,network_drive,MEP,,Public,report:variants;lineages,No,data/seq_report/SequencingReport_2024-01-30.docx,wa_genbank;lineages;seq_results,
-9715465027,genbank,network_drive,DIQA,NCBI,DIQA,ncbi;genbank;lineages;repository;refseq,No,data/genbank/raw_genbank_2024-09-30.parquet,,wa_genbank
-8085881829,genbank,network_drive,DIQA,NCBI,DIQA,ncbi;genbank;lineages;repository;refseq,No,data/genbank/raw_genbank_2024-10-07.parquet,,wa_genbank
-7394149033,genbank,network_drive,DIQA,NCBI,DIQA,ncbi;genbank;lineages;repository;refseq,No,data/genbank/raw_genbank_2024-10-14.parquet,,wa_genbank
-3590275606,genbank,network_drive,DIQA,NCBI,DIQA,ncbi;genbank;lineages;repository;refseq,No,data/genbank/raw_genbank_2024-10-21.parquet,,wa_genbank
-
-</code></pre>
-</div>
+shinyApp(ui, server)</code></pre>
 </div>
 
 
 
 </main> <!-- /main -->
 <script type="ojs-module-contents">
-eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6IlxuLy8gQ3JlYXRlIGEgY2hlY2tib3ggaW5wdXQgZm9yIHNlbGVjdGluZyBwcm9kdWN0c1xudmlld29mIHNlbGVjdF9wcm9kdWN0cyA9IElucHV0cy5jaGVja2JveChwcm9kdWN0cywge2xhYmVsOiBcIlNlbGVjdCBwcm9kdWN0czpcIiwgdmFsdWU6IHByb2R1Y3RzfSlcbiBcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMiIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6IlxuLy8gUGFyc2UgdGhlIEpTT04gbWV0YWRhdGEgaW50byBhIEphdmFTY3JpcHQgYXJyYXkgb2Ygb2JqZWN0c1xubWV0YWRhdGFfanMgPSBKU09OLnBhcnNlKG1ldGFkYXRhX2pzb24pXG5cbi8vIEZ1bmN0aW9uIHRvIHVwZGF0ZSBwYXJlbnQgYW5kIGNoaWxkIHZhbHVlcyB3aXRoIGludGVybWVkaWF0ZSB2YWx1ZXNcbmZ1bmN0aW9uIHVwZGF0ZU1ldGFkYXRhV2l0aEludGVybWVkaWF0ZXMobWV0YWRhdGFfanMsIHNlbGVjdF9wcm9kdWN0cykge1xuICAvLyBDb252ZXJ0IHNlbGVjdF9wcm9kdWN0cyB0byBhIFNldCBmb3IgZmFzdGVyIGxvb2t1cFxuICBjb25zdCBzZWxlY3RlZFNldCA9IG5ldyBTZXQoc2VsZWN0X3Byb2R1Y3RzKTtcbiAgXG4gIC8vIENyZWF0ZSBhIG1hcCB0byBsb29rIHVwIGludGVybWVkaWF0ZSB2YWx1ZXNcbiAgY29uc3QgcHJvZHVjdE1hcCA9IG5ldyBNYXAobWV0YWRhdGFfanMubWFwKHJvdyA9PiBbcm93LlByb2R1Y3RfTmFtZSwgcm93XSkpO1xuXG4gIHJldHVybiBtZXRhZGF0YV9qcy5tYXAocm93ID0+IHtcbiAgICBjb25zdCB1cGRhdGVkUm93ID0gey4uLnJvd307IC8vIENvcHkgdGhlIHJvdyB0byBhdm9pZCBtdXRhdGluZyB0aGUgb3JpZ2luYWxcbiAgICBpZiAoIXNlbGVjdGVkU2V0Lmhhcyhyb3cuUHJvZHVjdF9OYW1lKSkge1xuICAgICAgLy8gSWYgdGhlIHByb2R1Y3QgaXRzZWxmIGlzIG5vdCBzZWxlY3RlZCwgZXhjbHVkZSBpdCBmcm9tIHRoZSByZXN1bHRzXG4gICAgICByZXR1cm4gbnVsbDtcbiAgICB9XG4gICAgLy8gVXBkYXRlIHBhcmVudCBpZiBpdCdzIG5vdCBzZWxlY3RlZFxuICAgIGlmIChyb3cucGFyZW50ICYmICFzZWxlY3RlZFNldC5oYXMocm93LnBhcmVudCkpIHtcbiAgICAgIC8vIExvb2sgZm9yIHRoZSBpbnRlcm1lZGlhdGUgcHJvZHVjdCB0byB1c2UgaXRzIHBhcmVudFxuICAgICAgY29uc3QgaW50ZXJtZWRpYXRlUHJvZHVjdCA9IG1ldGFkYXRhX2pzLmZpbmQociA9PiByLmNoaWxkID09PSByb3cuUHJvZHVjdF9OYW1lICYmIHNlbGVjdGVkU2V0LmhhcyhyLnBhcmVudCkpO1xuICAgICAgdXBkYXRlZFJvdy5wYXJlbnQgPSBpbnRlcm1lZGlhdGVQcm9kdWN0ID8gaW50ZXJtZWRpYXRlUHJvZHVjdC5wYXJlbnQgOiBudWxsO1xuICAgICAgLy8gVXBkYXRlIGRpcmVjdF9wYXJlbnQgdG8gc2hvdyBpbmRpcmVjdCBsaW5rYWdlXG4gICAgICB1cGRhdGVkUm93LmRpcmVjdF9wYXJlbnQgPSBmYWxzZTtcbiAgICB9XG4gICAgLy8gVXBkYXRlIGNoaWxkIGlmIGl0J3Mgbm90IHNlbGVjdGVkXG4gICAgaWYgKHJvdy5jaGlsZCAmJiAhc2VsZWN0ZWRTZXQuaGFzKHJvdy5jaGlsZCkpIHtcbiAgICAgIC8vIExvb2sgZm9yIHRoZSBpbnRlcm1lZGlhdGUgcHJvZHVjdCB0byB1c2UgaXRzIGNoaWxkXG4gICAgICBjb25zdCBpbnRlcm1lZGlhdGVQcm9kdWN0ID0gbWV0YWRhdGFfanMuZmluZChyID0+IHIucGFyZW50ID09PSByb3cuUHJvZHVjdF9OYW1lICYmIHNlbGVjdGVkU2V0LmhhcyhyLmNoaWxkKSk7XG4gICAgICB1cGRhdGVkUm93LmNoaWxkID0gaW50ZXJtZWRpYXRlUHJvZHVjdCA/IGludGVybWVkaWF0ZVByb2R1Y3QuY2hpbGQgOiBudWxsO1xuICAgICAgLy8gVXBkYXRlIGRpcmVjdF9jaGlsZCB0byBzaG93IGluZGlyZWN0IGxpbmthZ2VcbiAgICAgIHVwZGF0ZWRSb3cuZGlyZWN0X2NoaWxkID0gZmFsc2U7XG4gICAgfVxuICAgIHJldHVybiB1cGRhdGVkUm93O1xuICB9KS5maWx0ZXIocm93ID0+IHJvdyAhPT0gbnVsbCk7IC8vIFJlbW92ZSByb3dzIHRoYXQgd2VyZSBleGNsdWRlZFxufVxuXG4vLyBBcHBseSB0aGUgdXBkYXRlIGZ1bmN0aW9uXG5maWx0ZXJlZF9tZXRhZGF0YV9qcyA9IHVwZGF0ZU1ldGFkYXRhV2l0aEludGVybWVkaWF0ZXMobWV0YWRhdGFfanMsIHNlbGVjdF9wcm9kdWN0cyk7XG5cbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMyIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6IlxuLy8gRnVuY3Rpb24gdG8gZ2VuZXJhdGUgbWVybWFpZCBzeW50YXggYmFzZWQgb24gc2VsZWN0ZWQgcHJvZHVjdHNcbmdlbmVyYXRlTWVybWFpZENoYXJ0ID0gKHNlbGVjdF9wcm9kdWN0cywgbWV0YWRhdGFfanMpID0+IHtcbiAgLy8gRW5zdXJlIHNlbGVjdF9wcm9kdWN0cyBpcyBhbiBhcnJheVxuICBzZWxlY3RfcHJvZHVjdHMgPSBBcnJheS5pc0FycmF5KHNlbGVjdF9wcm9kdWN0cykgPyBzZWxlY3RfcHJvZHVjdHMgOiBbXTtcbiAgXG4gIGlmIChzZWxlY3RfcHJvZHVjdHMubGVuZ3RoID09PSAwKSByZXR1cm4gXCJncmFwaCBURFxcblwiO1xuXG4gIC8vIENvbGxlY3QgdW5pcXVlIG5vZGVzIChwcm9kdWN0cykgYW5kIGVkZ2VzIChyZWxhdGlvbnNoaXBzKVxuICBsZXQgbm9kZXMgPSBuZXcgU2V0KCk7XG4gIGxldCBlZGdlcyA9IG5ldyBTZXQoKTtcblxuICAvLyBBZGQgbm9kZXMgYW5kIGVkZ2VzIGZvciBzZWxlY3RlZCBwcm9kdWN0c1xuICBzZWxlY3RfcHJvZHVjdHMuZm9yRWFjaChwcm9kdWN0ID0+IHtcbiAgICAvLyBBZGQgdGhlIHByb2R1Y3QgaXRzZWxmXG4gICAgbm9kZXMuYWRkKHByb2R1Y3QpO1xuXG4gICAgLy8gRmluZCByZWxhdGVkIHJvd3NcbiAgICBsZXQgcmVsYXRlZF9yb3dzID0gbWV0YWRhdGFfanMuZmlsdGVyKHJvdyA9PiByb3cuUHJvZHVjdF9OYW1lID09PSBwcm9kdWN0IHx8IHJvdy5wYXJlbnQgPT09IHByb2R1Y3QgfHwgcm93LmNoaWxkID09PSBwcm9kdWN0KTtcblxuICAgIHJlbGF0ZWRfcm93cy5mb3JFYWNoKHJvdyA9PiB7XG4gICAgICBpZiAoc2VsZWN0X3Byb2R1Y3RzLmluY2x1ZGVzKHJvdy5Qcm9kdWN0X05hbWUpKSB7XG4gICAgICAgIG5vZGVzLmFkZChyb3cuUHJvZHVjdF9OYW1lKTtcbiAgICAgICAgaWYgKHJvdy5wYXJlbnQgJiYgc2VsZWN0X3Byb2R1Y3RzLmluY2x1ZGVzKHJvdy5wYXJlbnQpKSB7XG4gICAgICAgICAgbm9kZXMuYWRkKHJvdy5wYXJlbnQpO1xuICAgICAgICAgIGlmIChyb3cuZGlyZWN0X3BhcmVudCA9PT0gdHJ1ZSkge1xuICAgICAgICAgICAgZWRnZXMuYWRkKGAke3Jvdy5wYXJlbnR9IC0tPiAke3Jvdy5Qcm9kdWN0X05hbWV9YCk7XG4gICAgICAgICAgICB9XG4gICAgICAgICAgaWYgKHJvdy5kaXJlY3RfcGFyZW50ID09PSBmYWxzZSkge1xuICAgICAgICAgICAgZWRnZXMuYWRkKGAke3Jvdy5wYXJlbnR9IC0uLT4gJHtyb3cuUHJvZHVjdF9OYW1lfWApO1xuICAgICAgICAgICAgfVxuICAgICAgICB9XG4gICAgICAgIGlmIChyb3cuY2hpbGQgJiYgc2VsZWN0X3Byb2R1Y3RzLmluY2x1ZGVzKHJvdy5jaGlsZCkpIHtcbiAgICAgICAgICBub2Rlcy5hZGQocm93LmNoaWxkKTtcbiAgICAgICAgICBpZiAocm93LmRpcmVjdF9jaGlsZCA9PT0gdHJ1ZSkge1xuICAgICAgICAgICAgZWRnZXMuYWRkKGAke3Jvdy5Qcm9kdWN0X05hbWV9IC0tPiAke3Jvdy5jaGlsZH1gKTtcbiAgICAgICAgICAgIH1cbiAgICAgICAgICBpZiAocm93LmRpcmVjdF9jaGlsZCA9PT0gZmFsc2UpIHtcbiAgICAgICAgICAgIGVkZ2VzLmFkZChgJHtyb3cuUHJvZHVjdF9OYW1lfSAtLi0+ICR7cm93LmNoaWxkfWApO1xuICAgICAgICAgICAgfVxuICAgICAgICB9XG4gICAgICB9XG4gICAgfSk7XG4gIH0pO1xuXG4gIC8vIENyZWF0ZSB0aGUgbWVybWFpZCBzeW50YXhcbiAgbGV0IG1lcm1haWRTeW50YXggPSBcImdyYXBoIFREXFxuXCI7XG4gIFxuICAvLyBBZGQgbm9kZXMgdG8gdGhlIG1lcm1haWQgc3ludGF4XG4gIG5vZGVzLmZvckVhY2gobm9kZSA9PiB7XG4gICAgbWVybWFpZFN5bnRheCArPSBgJHtub2RlfVxcbmA7XG4gIH0pO1xuXG4gIC8vIEFkZCBlZGdlcyB0byB0aGUgbWVybWFpZCBzeW50YXhcbiAgZWRnZXMuZm9yRWFjaChlZGdlID0+IHtcbiAgICBtZXJtYWlkU3ludGF4ICs9IGAke2VkZ2V9XFxuYDtcbiAgfSk7XG4gIFxuICByZXR1cm4gbWVybWFpZFN5bnRheDtcbn1cblxuLy8gR2VuZXJhdGUgdGhlIG1lcm1haWQgY2hhcnQgYmFzZWQgb24gdGhlIHNlbGVjdGVkIHByb2R1Y3RzXG5tZXJtYWlkQ2hhcnQgPSBnZW5lcmF0ZU1lcm1haWRDaGFydChzZWxlY3RfcHJvZHVjdHMsIGZpbHRlcmVkX21ldGFkYXRhX2pzKTtcblxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiY2VsbE5hbWUiOiJvanMtY2VsbC00IiwiaW5saW5lIjpmYWxzZSwic291cmNlIjoiXG4vLyBEaXNwbGF5IHRoZSBtZXJtYWlkIGNoYXJ0XG5tZXJtYWlkYCR7bWVybWFpZENoYXJ0fWBcblxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJzaGlueUlucHV0KCdzZWxlY3RfcHJvZHVjdHMnKSJ9XX0=
+eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6IlxyXG4vLyBUaGlzIG9qcyBibG9jayBjcmVhdGVzIGZ1bmN0aW9ucyB0byBsaXN0ZW4gdG8gYnV0dG9uIGNsaWNrcyBmb3IgdGhlIGFib3ZlIGJ1dHRvbnNcclxuLy8gQWZ0ZXIgYSBjbGljaywgZnVucyB3aWxsIHNjcm9sbCB0byBpZCB3aXRoaW4gc2hpbnkgYXBwXHJcblxyXG5kb2N1bWVudC5nZXRFbGVtZW50QnlJZChcImRhZ19idXR0b25cIikuYWRkRXZlbnRMaXN0ZW5lcihcImNsaWNrXCIsIGZ1bmN0aW9uKCkge1xyXG4gIC8vIEFjY2VzcyB0aGUgaWZyYW1lIGNvbnRhaW5pbmcgdGhlIFNoaW55TGl2ZSBhcHBcclxuICB2YXIgaWZyYW1lID0gZG9jdW1lbnQucXVlcnlTZWxlY3RvcihcImlmcmFtZVwiKTsgXHJcbiAgaWYgKGlmcmFtZSkge1xyXG4gICAgLy8gVXNlIGlmcmFtZSdzIGNvbnRlbnRXaW5kb3cgdG8gYWNjZXNzIHRoZSBTaGlueSBhcHAncyBET01cclxuICAgIHZhciBpZnJhbWVEb2N1bWVudCA9IGlmcmFtZS5jb250ZW50V2luZG93LmRvY3VtZW50O1xyXG4gICAgLy8gVXNlIHNjcm9sbEludG9WaWV3IG9uIHRoZSBkZXNpcmVkIHNlY3Rpb24gaW5zaWRlIHRoZSBpZnJhbWVcclxuICAgIHZhciBzZWN0aW9uID0gaWZyYW1lRG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoXCJkYWctYnJcIik7XHJcbiAgICBpZiAoc2VjdGlvbikge1xyXG4gICAgICBzZWN0aW9uLnNjcm9sbEludG9WaWV3KHtiZWhhdmlvcjogXCJzbW9vdGhcIn0pO1xyXG4gICAgfVxyXG4gIH1cclxufSk7XHJcblxyXG5kb2N1bWVudC5nZXRFbGVtZW50QnlJZChcIm12X2J1dHRvblwiKS5hZGRFdmVudExpc3RlbmVyKFwiY2xpY2tcIiwgZnVuY3Rpb24oKSB7XHJcbiAgLy8gQWNjZXNzIHRoZSBpZnJhbWUgY29udGFpbmluZyB0aGUgU2hpbnlMaXZlIGFwcFxyXG4gIHZhciBpZnJhbWUgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKFwiaWZyYW1lXCIpOyBcclxuICBpZiAoaWZyYW1lKSB7XHJcbiAgICAvLyBVc2UgaWZyYW1lJ3MgY29udGVudFdpbmRvdyB0byBhY2Nlc3MgdGhlIFNoaW55IGFwcCdzIERPTVxyXG4gICAgdmFyIGlmcmFtZURvY3VtZW50ID0gaWZyYW1lLmNvbnRlbnRXaW5kb3cuZG9jdW1lbnQ7XHJcbiAgICAvLyBVc2Ugc2Nyb2xsSW50b1ZpZXcgb24gdGhlIGRlc2lyZWQgc2VjdGlvbiBpbnNpZGUgdGhlIGlmcmFtZVxyXG4gICAgdmFyIHNlY3Rpb24gPSBpZnJhbWVEb2N1bWVudC5nZXRFbGVtZW50QnlJZChcIm1ldGFkYXRhLXZpZXdlci1iclwiKTtcclxuICAgIGlmIChzZWN0aW9uKSB7XHJcbiAgICAgIHNlY3Rpb24uc2Nyb2xsSW50b1ZpZXcoe2JlaGF2aW9yOiBcInNtb290aFwifSk7XHJcbiAgICB9XHJcbiAgfVxyXG59KTtcclxuICBcclxuIn1dfQ==
 </script>
 <script type="module">
 if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
