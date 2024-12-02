@@ -33,9 +33,9 @@ jobs:
             if (!requireNamespace("shinylive", quietly = TRUE)) install.packages("shinylive")
             shinylive::assets_download()
         
-        - name: Run preprocessing script
-          run: |
-            Rscript src/insert_code.R
+        # - name: Run preprocessing script
+        #   run: |
+        #     Rscript src/insert_code.R
   
         - name: Render and Publish
           uses: quarto-dev/quarto-actions/publish@v2
