@@ -4,12 +4,11 @@ library(dplyr)
 library(tidyr)
 
 # Read the CSV file when the script starts
-metadata <- read.csv(url("https://raw.githubusercontent.com/NW-PaGe/dstt_catalog_demo/refs/heads/main/metadata.csv"))
+metadata <- read.csv(url("https://raw.githubusercontent.com/NW-PaGe/dstt_catalog_demo/refs/heads/main/metadata.csv")) %>%
+  mutate(across(where(is.character), function(.) ifelse(. == '', NA_character_, .)))
 
 # Define UI for the app
-ui <- fluidPage(
-  titlePanel("Directed Acyclic Graph (DAG):"),
-  
+dag_ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
       h4("Select nodes"),
@@ -24,7 +23,7 @@ ui <- fluidPage(
 )
 
 # Define server logic for the app
-server <- function(input, output) {
+dag_server <- function(input, output, session) {
   
   # Create a reactive DAG from selected nodes
   reactive_dag <- reactive({
@@ -92,12 +91,15 @@ server <- function(input, output) {
     return(dag)
   })
   
-  # Render the DAG plot
-  output$dag_plot <- renderGrViz({
-    dag <- reactive_dag()
-    dag %>% render_graph()
+  observe({
+    # Render the DAG plot
+    output$dag_plot <- renderGrViz({
+      dag <- reactive_dag()
+      dag %>% render_graph()
+    })  
   })
+  
 }
 
-# Run the application 
-shinyApp(ui = ui, server = server)
+# # render shinyapp
+# shinyApp(ui=dag_ui, server=dag_server)
