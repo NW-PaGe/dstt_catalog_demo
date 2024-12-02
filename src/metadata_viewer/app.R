@@ -5,10 +5,11 @@ library(duckdb)
 library(jsonlite)
 
 # Read the CSV file when the script starts
-metadata <- read.csv(url("https://raw.githubusercontent.com/NW-PaGe/dstt_catalog_demo/refs/heads/main/metadata.csv"))
+metadata <- read.csv(url("https://raw.githubusercontent.com/NW-PaGe/dstt_catalog_demo/refs/heads/main/metadata.csv")) %>%
+  mutate(across(where(is.character), function(.) ifelse(. == '', NA_character_, .)))
 
 # Define the UI
-ui <- fluidPage(
+metadata_ui <- fluidPage(
   # Add custom CSS
   tags$head(
     tags$style(HTML("
@@ -115,7 +116,6 @@ ui <- fluidPage(
       }
     "))
   ),
-  titlePanel("Filtered Metadata Viewer"),
   sidebarLayout(
     sidebarPanel(
       # Static text inputs for certain columns
@@ -149,7 +149,7 @@ ui <- fluidPage(
 )
 
 # Define the server logic
-server <- function(input, output, session) {
+metadata_server <- function(input, output, session) {
   observe({
     output$fileList <- renderUI({
       file_paths <- filteredData()$Connection
@@ -365,5 +365,5 @@ server <- function(input, output, session) {
   })
 }
 
-# Run the application 
-shinyApp(ui = ui, server = server)
+# # Run the application 
+# shinyApp(ui=metadata_ui, server=metadata_server)
