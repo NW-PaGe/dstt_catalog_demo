@@ -24,9 +24,49 @@ Data Catalog
 
 </h1>
 
-This is a static website and demo of a data catalog. Search for data objects in the metadata viewer, or visualize data product relationships in the Directed Acyclic Graph (DAG) below.
+This is a static website and demo of a data catalog. Search for data objects in the metadata viewer, or visualize data product relationships in the directed acyclic graph (DAG) below.
 
-<a href="#dag" class="button">dag</a> <a href="#metadata-viewer" class="button">metadata viewer</a>
+<div>
+  <a id="dag_button" class="button">dag</a> 
+  <a id="mv_button" class="button">metdata viewer</a>
+</div>
+
+```{ojs}
+//| echo: false
+//| output: false
+
+// This ojs block creates functions to listen to button clicks for the above buttons
+// After a click, funs will scroll to id within shiny app
+
+document.getElementById("dag_button").addEventListener("click", function() {
+  // Access the iframe containing the ShinyLive app
+  var iframe = document.querySelector("iframe"); 
+  if (iframe) {
+    // Use iframe's contentWindow to access the Shiny app's DOM
+    var iframeDocument = iframe.contentWindow.document;
+    // Use scrollIntoView on the desired section inside the iframe
+    var section = iframeDocument.getElementById("dag-br");
+    if (section) {
+      section.scrollIntoView({behavior: "smooth"});
+    }
+  }
+});
+
+document.getElementById("mv_button").addEventListener("click", function() {
+  // Access the iframe containing the ShinyLive app
+  var iframe = document.querySelector("iframe"); 
+  if (iframe) {
+    // Use iframe's contentWindow to access the Shiny app's DOM
+    var iframeDocument = iframe.contentWindow.document;
+    // Use scrollIntoView on the desired section inside the iframe
+    var section = iframeDocument.getElementById("metadata-viewer-br");
+    if (section) {
+      section.scrollIntoView({behavior: "smooth"});
+    }
+  }
+});
+  
+```
 
 :::
 
@@ -36,29 +76,17 @@ This is a static website and demo of a data catalog. Search for data objects in 
 
 :::
 
-:::: {.splash-page}
-
-:::{.column-screen-inset id="dag"}
-
+:::{.column-screen-inset}
 ```{shinylive-r}
 #| standalone: true
-#| components: [editor, viewer]
-#| viewerHeight: 600
+#| #components: [editor, viewer]
+#| viewerHeight: 1000
+#| column: page
+
 
 ## file: app.R
 # import dag
 {{< include "src/dag/app.R" >}}
-```
-:::
-
-:::{.column-screen-inset id="metadata-viewer"}
-
-```{shinylive-r}
-#| standalone: true
-#| components: [viewer]
-#| viewerHeight: 400
-
-## file: app.R
 # import docx_to_html function
 {{< include "src/metadata_viewer/docx_to_html.R" >}}
 # import split_values.R
@@ -66,8 +94,41 @@ This is a static website and demo of a data catalog. Search for data objects in 
  # import server & ui code
 {{< include "src/metadata_viewer/app.R" >}}
 
+# Create main ui
+ui <- fluidPage(
+  tags$style(
+    HTML("
+          h1.title {
+            text-align: center;
+            font-weight: bold;
+          }
+          hr.div {
+            width: 100%;
+            border: 5px dotted #000000;
+            border-style: none none dotted;
+          }
+         ")
+  ),
+  tags$br(id='dag-br'),
+  h1(id='dag', class='title', 'Directed Acyclic Graph (DAG):'),
+  tags$br(),
+  tags$br(),
+  fluidRow(column(12, dag_ui)), # insert dag ui
+  tags$hr(class='div'),
+  tags$br(id='metadata-viewer-br'),
+  h1(id='metadata-viewer', class='title', 'Metadata Viewer:'),
+  tags$br(),
+  tags$br(),
+  fluidRow(column(12, metadata_ui)) # insert metadata ui 
+)
+
+# create main app
+server <- function(input, output, session) {
+  dag_server(input, output, session) # insert dag server logic
+  metadata_server(input, output, session) # insert metadata server logic
+}
+
+shinyApp(ui, server)
 ```
 :::
-
-::::
 
