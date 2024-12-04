@@ -20,40 +20,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -155,8 +121,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#data-science-training-team-data-catalog" id="toc-data-science-training-team-data-catalog" class="nav-link active" data-scroll-target="#data-science-training-team-data-catalog">Data Science Training Team: Data Catalog</a>
+  <ul class="collapse">
+  <li><a href="#authors" id="toc-authors" class="nav-link" data-scroll-target="#authors">Authors</a></li>
+  <li><a href="#business-need" id="toc-business-need" class="nav-link" data-scroll-target="#business-need">Business need</a></li>
+  <li><a href="#project-goals" id="toc-project-goals" class="nav-link" data-scroll-target="#project-goals">Project goals</a></li>
+  <li><a href="#infrastructure" id="toc-infrastructure" class="nav-link" data-scroll-target="#infrastructure">Infrastructure</a></li>
+  <li><a href="#disclaimer" id="toc-disclaimer" class="nav-link" data-scroll-target="#disclaimer">Disclaimer</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -180,15 +159,53 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>About this site</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 2</code></pre>
-</div>
-</div>
+<section id="data-science-training-team-data-catalog" class="level1">
+<h1>Data Science Training Team: Data Catalog</h1>
+<section id="authors" class="level2">
+<h2 class="anchored" data-anchor-id="authors">Authors</h2>
+<ul>
+<li><a href="mailto:philip.crain@doh.wa.gov?subject=%5BDSTT%20Catalog%20Demo%5D">Philip Crain</a></li>
+<li><a href="mailto:frank.aragona@doh.wa.gov?subject=%5BDSTT%20Catalog%20Demo%5D">Frank Aragona</a></li>
+<li><a href="mailto:cory.yun@doh.wa.gov?subject=%5BDSTT%20Catalog%20Demo%5D">Cory Yun</a></li>
+<li><a href="mailto:kristen.waterman@doh.wa.gov?subject=%5BDSTT%20Catalog%20Demo%5D">Kristen Waterman</a></li>
+<li><a href="mailto:kathleen.conery@doh.wa.gov?subject=%5BDSTT%20Catalog%20Demo%5D">Kathleen Conery</a></li>
+</ul>
+<p>In the subject line, please include “DSTT Catalog Demo” for any questions regarding this repository, it’s processes or data produced.</p>
+</section>
+<section id="business-need" class="level2">
+<h2 class="anchored" data-anchor-id="business-need">Business need</h2>
+<ul>
+<li>Genomic sequencing and related Advanced Molecular Detection (AMD) work at the Washington State Department of Health (WADOH) requires extensive interdisciplinary collaboration</li>
+<li>AMD data are generated, transformed, analyzed, and shared by many different teams including:
+<ul>
+<li>Bioinformatics: this team generates assembly data from raw reads generated by the Washington State Public Health Laboratory (PHL), validates new pipelines, and submits assembly data to public repositories (such as those hosted by NCBI: GenBank, RefSeq, and others).</li>
+<li>Data Integration and Quality Assurance: this team extracts and transforms sequencing metadata submitted by sequencing laboratories and links these data to case data within the state public health surveillance system.</li>
+<li>Molecular Epi: this team analyzes transformed assembly data from multiple different sources and generates reports for internal and external stakeholders.</li>
+</ul></li>
+<li>Data are stored in siloed environments that have limited access, limited/no information on how to request access, and lack of visibility that the data is even being generated and owned by other teams at WADOH.</li>
+<li>There is a need for greater visibility around AMD data at WADOH. Data need to be discoverable and explorable. Downstream users need to understand the lineage of the data they are using.</li>
+</ul>
+</section>
+<section id="project-goals" class="level2">
+<h2 class="anchored" data-anchor-id="project-goals">Project goals</h2>
+<p>We assembled members of a Data Science Training Team with representation from three distinct AMD teams at WADOH (described above). This team set out to build a model data catalog to demonstrate a solution addressing the needs for greater visibility around data and data lineage.</p>
+<p>The goals of the data catalog were to: - Explore metadata fields required for a minimum viable product (MVP) - Visualize data lineage through a Directed Acyclic Graph (DAG) - Build an example infrastructure that could be used to make AMD data explorable and discoverable at WADOH</p>
+</section>
+<section id="infrastructure" class="level2">
+<h2 class="anchored" data-anchor-id="infrastructure">Infrastructure</h2>
+<ul>
+<li>Built in Shinylive R, a serverless Shiny package which can render and run code in a browser. WebAssembly in package is used to make page serverless.</li>
+<li>Packaged into a Quarto website. This allows for easy web design, theming, and page organization. Quarto supports running R code blocks (along with other languages) and has built-in Observable JS support.</li>
+<li>Deployed by GitHub Actions and published on GitHub Pages: GitHub Actions render and deployment allows for automatic updating of GitHub Pages with prod GitHub repository releases. GitHub Pages allows for web hosting a serverless website.</li>
+</ul>
+</section>
+<section id="disclaimer" class="level2">
+<h2 class="anchored" data-anchor-id="disclaimer">Disclaimer</h2>
+<p>This work was executed as part of the <a href="https://www.cste.org/">CSTE</a> <a href="https://www.cste.org/page/dstt-webpage">Data Science Training Team</a> program. The primary goal of this work was to increase data science skills and knowledge. This Data Catalog is not intended to be used as a final or scalable product.</p>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
