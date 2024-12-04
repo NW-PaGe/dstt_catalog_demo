@@ -29,6 +29,7 @@ In the subject line, please include "DSTT Catalog Demo" for any questions regard
 We assembled members of a Data Science Training Team with representation from three distinct AMD teams at WADOH (described above). This team set out to build a model data catalog to demonstrate a solution addressing the needs for greater visibility around data and data lineage.
 
 The goals of the data catalog were to:
+
 - Explore metadata fields required for a minimum viable product (MVP)
 - Visualize data lineage through a Directed Acyclic Graph (DAG)
 - Build an example infrastructure that could be used to make AMD data explorable and discoverable at WADOH
